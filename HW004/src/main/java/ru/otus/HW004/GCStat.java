@@ -28,11 +28,10 @@ public class GCStat implements Runnable{
         while(true) {
             try {
                 Thread.sleep(statPeriod);
+                logGC();
             } catch (InterruptedException e) {
                 System.out.println(e.getMessage());
                 e.printStackTrace();
-            }finally {
-                logGC();
             }
         }
     }
