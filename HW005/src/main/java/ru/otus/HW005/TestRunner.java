@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TestRunner {
-    public static void runTest(Class<?> c) {
+    public static void runTest(Class<?> c, Object... args) {
         Method beforeTest = null;
         Method afterTest = null;
         List<Method> tests = new ArrayList<>();
@@ -31,11 +31,17 @@ public class TestRunner {
         try {
             for (Method test : tests) {
                 Object obj = c.newInstance();
+                System.out.println("Run test for method + '" + test.getName() + "'");
                 if (beforeTest != null) {
                     beforeTest.invoke(obj);
                 }
                 try {
-                    test.invoke(obj);
+                    if (test.getParameterCount() == 0) {
+                        test.invoke(obj);
+                    }else {
+                        System.out.println("Test failed. We can test the method without parameters only :-(");
+                        return;
+                    }
                 } catch (InvocationTargetException ae) {
                     if (ae.getTargetException() instanceof AssertionError) {
                         System.out.println("test " + test.getName() + " FAILED!");
@@ -43,7 +49,7 @@ public class TestRunner {
                         break;
                     }
                 }
-                System.out.println("test " + test.getName() + " PASSED!");
+                System.out.println("test '" + test.getName() + "' PASSED!");
                 if (afterTest != null) {
                     afterTest.invoke(obj);
                 }
