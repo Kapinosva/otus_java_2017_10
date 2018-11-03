@@ -5,7 +5,6 @@ import ru.otus.HW006.Card.CardInrf;
 import ru.otus.HW006.Exceptions.NoCardException;
 import ru.otus.HW006.Exceptions.NotEnoughMoneyInATMException;
 import ru.otus.HW006.Exceptions.NotMultipleSumExceprion;
-import ru.otus.HW006.Exceptions.TODOException;
 
 public interface ATMIntf extends ATMUnitIntf {
 
@@ -28,4 +27,5 @@ public interface ATMIntf extends ATMUnitIntf {
     void makeWithdraw() throws NoCardException, NotMultipleSumExceprion, NotEnoughMoneyInATMException;
 
     void insertCard(CardInrf card);
+
 }

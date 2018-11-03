@@ -2,6 +2,9 @@ package ru.otus.HW006.ATM;
 
 import ru.otus.HW006.ATM.Comand.Comand;
 import ru.otus.HW006.ATM.Comand.Comands;
+import ru.otus.HW006.ATM.cell.Cell;
+import ru.otus.HW006.ATM.cell.CellCareTaker;
+import ru.otus.HW006.ATM.cell.CellIntf;
 import ru.otus.HW006.Card.Cards;
 import ru.otus.HW006.Exceptions.*;
 import ru.otus.HW006.Bank.BankIntf;
@@ -15,9 +18,13 @@ public abstract class ATMAbs implements ATMIntf{
     private CardInrf insertingCard = null;
     BankIntf masterBank = null;
     int id = 0;
+
     private List<CellIntf> cells = new ArrayList<>();
     private Map<Integer, Integer> cellsMap = new HashMap<>();
+
     Comands comands = new Comands();
+
+    private CellCareTaker cellCareTaker= new CellCareTaker();
 
     @Override
     public void printCardBalance(){
@@ -35,10 +42,9 @@ public abstract class ATMAbs implements ATMIntf{
 
     @Override
     public void addCell(int denomination, int count){
-        cells.add(new Cell(denomination, count));
-
-        //cells.sort();
-        Collections.sort(cells, (c1, c2)->{return Integer.compare(c2.getDenomination(), c1.getDenomination());});
+        CellIntf cell = new Cell(denomination, count);
+        cells.add(cell);
+        Collections.sort(cells, (c1, c2)-> Integer.compare(c2.getDenomination(), c1.getDenomination()));
         for(CellIntf c: cells){
             System.out.println(c.getDenomination()+ " * "+ c.getCount() + " = " + c.getBalance());
         }
@@ -66,7 +72,6 @@ public abstract class ATMAbs implements ATMIntf{
         System.out.println("If you want to Exit - type in 'Exit'");
     };
 
-
     private Comand selectCommand(){
         if (insertingCard == null){
             do {
@@ -82,7 +87,7 @@ public abstract class ATMAbs implements ATMIntf{
         do{
             comands.printComands();
             UserInput.getUserInput();
-        }while ((!comands.idInComands(UserInput.getLastUserintInput())));
+        }while ((!comands.isIDInComandList(UserInput.getLastUserintInput())));
         return comands.get(UserInput.getLastUserintInput());
     }
 
@@ -126,10 +131,9 @@ public abstract class ATMAbs implements ATMIntf{
                     insertingCard.withdraw(sum);
                     System.out.println("Withdrawed " + sum );
                 }
-            } catch (NotEnoughMoneCardBalanceException e) {
-                e.printStackTrace();
+            } catch (NotEnoughMoneyCardBalanceException e) {
+                System.out.println(e.getMessage());
             }
-
         }
     }
 
@@ -143,7 +147,7 @@ public abstract class ATMAbs implements ATMIntf{
     }
 
     @Override
-    public void refillCells(){
+    public void fillCells(){
         int cellcnt = Randimize.getRndNum(9) + 1;
         cells.clear();
         cellsMap.clear();;
@@ -151,12 +155,8 @@ public abstract class ATMAbs implements ATMIntf{
             int cellDenomination = Denomination.getRndDenomination();
             int cellCount = Randimize.getRndNum(50);
             addCell(cellDenomination, cellCount);
-            if (cellsMap.containsKey(cellDenomination)){
-                cellsMap.put(cellDenomination, cellCount + cellsMap.get(cellDenomination));
-            }else{
-                cellsMap.put(cellDenomination, cellCount);
-            }
         }
+        fillCellMap();
         System.out.println("=========================");
         cellsMap.forEach((Integer i1, Integer i2)->{
             System.out.println(i1 + "  " + i2);
@@ -173,15 +173,40 @@ public abstract class ATMAbs implements ATMIntf{
         return false;
     }
 
-    private boolean canWithdraw(int sum) throws NotMultipleSumExceprion, NotEnoughMoneyInATMException, NotEnoughMoneCardBalanceException {
+    private boolean canWithdraw(int sum) throws NotMultipleSumExceprion, NotEnoughMoneyInATMException, NotEnoughMoneyCardBalanceException {
         if (sum > getBalance()){
             throw new NotEnoughMoneyInATMException();
         }else if(!isMultipleSum(sum)){
             throw new NotMultipleSumExceprion();
         }else if (getCardBalance() < sum){
-            throw new NotEnoughMoneCardBalanceException();
+            throw new NotEnoughMoneyCardBalanceException();
         }else {
             return true;
+        }
+    }
+
+    @Override
+    public void saveCells(){
+        for (CellIntf cell :cells){
+            cellCareTaker.put(cell, cell.saveMemento());
+        }
+    }
+
+    @Override
+    public void restoreCells(){
+        for (CellIntf cell :cells){
+            cell.restoreMemento(cellCareTaker.get(cell));
+        }
+    }
+
+    private void fillCellMap(){
+        cellsMap.clear();;
+        for(CellIntf cell: cells){
+            if (cellsMap.containsKey(cell.getDenomination())){
+                cellsMap.put(cell.getDenomination(), cell.getCount() + cellsMap.get(cell.getDenomination()));
+            }else{
+                cellsMap.put(cell.getDenomination(),cell.getCount());
+            }
         }
     }
 

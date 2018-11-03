@@ -7,6 +7,7 @@ import ru.otus.HW006.Bank.BankIntf;
 public interface DepartmentIntf {
     BankIntf getBank();
     int getBalanceATMs();
-    void refillATMs();
+    void fillATMs();
     void addATM(ATMUnitIntf ATM);
+    void restoreATMs();
 }

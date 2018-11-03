@@ -1,15 +1,12 @@
 package ru.otus.HW006.Department;
 
-import ru.otus.HW006.ATM.ATMIntf;
 import ru.otus.HW006.ATM.ATMUnitIntf;
-import ru.otus.HW006.Bank.Bank;
 import ru.otus.HW006.Bank.BankIntf;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class Department implements DepartmentIntf {
-    private BankIntf0 masterBank = null;
+    private BankIntf masterBank = null;
     private List<ATMUnitIntf> ATNs = new ArrayList<>();
 
     public Department(BankIntf b){
@@ -31,10 +28,18 @@ public class Department implements DepartmentIntf {
     }
 
     @Override
-    public void refillATMs() {
-        System.out.println("Refill all ATMS of bank '" + getBank().getName() + "'");
+    public void fillATMs() {
+        System.out.println("Fill all ATMS of bank '" + getBank().getName() + "'");
         for (ATMUnitIntf a: ATNs){
-            a.refillCells();
+            a.fillCells();
+            a.saveCells();
+        }
+    }
+
+    @Override
+    public void restoreATMs() {
+        for (ATMUnitIntf a: ATNs){
+            a.restoreCells();
         }
     }
 

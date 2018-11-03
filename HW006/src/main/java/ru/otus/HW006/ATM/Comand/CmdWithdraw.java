@@ -12,17 +12,16 @@ public class CmdWithdraw extends Comand{
         super(atm);
     }
 
-
     @Override
     public void  doComand(){
         try {
             atm.makeWithdraw();
         } catch (NoCardException e) {
-            e.printStackTrace();
-        } catch (NotMultipleSumExceprion notMultipleSumExceprion) {
-            notMultipleSumExceprion.printStackTrace();
+            System.out.println("No card in ATM. Cannot withdraw.");;
+        } catch (NotMultipleSumExceprion e) {
+            System.out.println("Not multiple sum requested. Cannot withdraw.");
         } catch (NotEnoughMoneyInATMException e) {
-            e.printStackTrace();
+            System.out.println("Not enough money in ATM.");
         }
     }
 

@@ -21,14 +21,8 @@ public class Comands {
         }
     }
 
-
-    public boolean idInComands(int index){
-        for (int i = 0; i < comands.size();i++){
-            if (i == index){
-                return true;
-            }
-        }
-        return false;
+    public boolean isIDInComandList(int index){
+        return index < comands.size();
     }
 
 }

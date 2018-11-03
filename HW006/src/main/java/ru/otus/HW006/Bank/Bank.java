@@ -1,7 +1,5 @@
 package ru.otus.HW006.Bank;
 
-import ru.otus.HW006.Bank.BankIntf;
-
 public class Bank implements BankIntf {
     private String name = "";
 

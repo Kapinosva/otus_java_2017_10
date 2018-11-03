@@ -1,9 +1,6 @@
 package ru.otus.HW006.Bank;
 
-
-
 import ru.otus.HW006.Utils.Randimize;
-
 import java.util.ArrayList;
 import java.util.List;
 

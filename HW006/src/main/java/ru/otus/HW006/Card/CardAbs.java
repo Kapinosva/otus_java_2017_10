@@ -1,7 +1,7 @@
 package ru.otus.HW006.Card;
 
 import ru.otus.HW006.Bank.BankIntf;
-import ru.otus.HW006.Exceptions.NotEnoughMoneCardBalanceException;
+import ru.otus.HW006.Exceptions.NotEnoughMoneyCardBalanceException;
 
 public abstract class CardAbs implements CardInrf {
     int balance = 0;
@@ -13,9 +13,9 @@ public abstract class CardAbs implements CardInrf {
     }
 
     @Override
-    public void withdraw(int sum) throws NotEnoughMoneCardBalanceException {
+    public void withdraw(int sum) throws NotEnoughMoneyCardBalanceException {
         if (sum > getBalance()){
-            throw new NotEnoughMoneCardBalanceException();
+            throw new NotEnoughMoneyCardBalanceException();
         }else{
             setBalance(getBalance() - sum);
         }
@@ -35,6 +35,4 @@ public abstract class CardAbs implements CardInrf {
     public String getNumber(){
         return  number;
     }
-
-
 }
