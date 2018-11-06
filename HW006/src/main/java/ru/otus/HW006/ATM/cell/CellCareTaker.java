@@ -4,13 +4,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CellCareTaker {
-    private Map<CellIntf, CellMemento> cellMementos = new HashMap<>();
+    private Map<Cell, CellMemento> cellMementos = new HashMap<>();
 
-    public void put(CellIntf cell, CellMemento cellMemento){
+    public void put(Cell cell, CellMemento cellMemento){
         cellMementos.replace(cell, cellMemento);
     }
 
-    public CellMemento get(CellIntf cell){
+    public CellMemento get(Cell cell){
             return cellMementos.get(cell);
     }
 }

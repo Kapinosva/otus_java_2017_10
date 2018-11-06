@@ -4,7 +4,7 @@ import ru.otus.HW006.ATM.Comand.CmdGetCardBalance;
 import ru.otus.HW006.ATM.Comand.CmdWithdraw;
 import ru.otus.HW006.Bank.BankIntf;
 
-public class ATM extends ATMAbs {
+public class ATM extends AbstractATM {
 
     public ATM(int id, BankIntf masterBank){
         this.id = id;

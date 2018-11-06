@@ -9,11 +9,11 @@ import java.util.List;
 import ru.otus.HW006.Utils.Randimize;
 
 public class Departments {
-    private static List<DepartmentIntf> departments = new ArrayList<>();
+    private static List<Department> departments = new ArrayList<>();
 
     public static void fillDepartments(){
         for (BankIntf b : Banks.getBanks()){
-            Department d = new Department(b);
+            DepartmentImpl d = new DepartmentImpl(b);
             for (int i = 0; i <Randimize.getRndNum(5); i++){
                 d.addATM(new ATM(i, b));
             }
@@ -21,7 +21,7 @@ public class Departments {
         }
     }
 
-    public static DepartmentIntf getRandomDept(){
+    public static Department getRandomDept(){
         return departments.get(Randimize.getRndNum(departments.size()));
 
     }

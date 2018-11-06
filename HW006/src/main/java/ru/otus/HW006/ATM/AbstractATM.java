@@ -2,9 +2,9 @@ package ru.otus.HW006.ATM;
 
 import ru.otus.HW006.ATM.Comand.Comand;
 import ru.otus.HW006.ATM.Comand.Comands;
-import ru.otus.HW006.ATM.cell.Cell;
+import ru.otus.HW006.ATM.cell.CellImpl;
 import ru.otus.HW006.ATM.cell.CellCareTaker;
-import ru.otus.HW006.ATM.cell.CellIntf;
+import ru.otus.HW006.ATM.cell.Cell;
 import ru.otus.HW006.Card.Cards;
 import ru.otus.HW006.Exceptions.*;
 import ru.otus.HW006.Bank.BankIntf;
@@ -14,13 +14,12 @@ import ru.otus.HW006.Utils.UserInput;
 
 import java.util.*;
 
-public abstract class ATMAbs implements ATMIntf{
+public abstract class AbstractATM implements ATMIntf{
     private CardInrf insertingCard = null;
     BankIntf masterBank = null;
     int id = 0;
 
-    private List<CellIntf> cells = new ArrayList<>();
-    private Map<Integer, Integer> cellsMap = new HashMap<>();
+    private List<Cell> cells = new ArrayList<>();
 
     Comands comands = new Comands();
 
@@ -42,10 +41,10 @@ public abstract class ATMAbs implements ATMIntf{
 
     @Override
     public void addCell(int denomination, int count){
-        CellIntf cell = new Cell(denomination, count);
+        Cell cell = new CellImpl(denomination, count);
         cells.add(cell);
         Collections.sort(cells, (c1, c2)-> Integer.compare(c2.getDenomination(), c1.getDenomination()));
-        for(CellIntf c: cells){
+        for(Cell c: cells){
             System.out.println(c.getDenomination()+ " * "+ c.getCount() + " = " + c.getBalance());
         }
         System.out.println("----------------------------");
@@ -103,7 +102,7 @@ public abstract class ATMAbs implements ATMIntf{
 
     private void withdraw(int sum){
         int rest = 0;
-        for(CellIntf c: cells){
+        for(Cell c: cells){
             rest = c.withdraw(sum);
             if (rest == 0){
                 break;
@@ -140,7 +139,7 @@ public abstract class ATMAbs implements ATMIntf{
     @Override
     public int getBalance(){
         int balance = 0;
-        for(CellIntf c: cells){
+        for(Cell c: cells){
             balance = balance + c.getBalance();
         }
         return balance;
@@ -150,21 +149,17 @@ public abstract class ATMAbs implements ATMIntf{
     public void fillCells(){
         int cellcnt = Randimize.getRndNum(9) + 1;
         cells.clear();
-        cellsMap.clear();;
         for(int i = 0; i < cellcnt; i++){
             int cellDenomination = Denomination.getRndDenomination();
             int cellCount = Randimize.getRndNum(50);
             addCell(cellDenomination, cellCount);
         }
-        fillCellMap();
         System.out.println("=========================");
-        cellsMap.forEach((Integer i1, Integer i2)->{
-            System.out.println(i1 + "  " + i2);
-        });
-
     }
 
     private boolean isMultipleSum(int sum){
+        Map<Integer, Integer> cellsMap = new HashMap<>();
+        fillCellMap(cellsMap);
         for(Integer key : cellsMap.keySet()){
             if ((sum % key) == 0){
                 return  true;
@@ -187,21 +182,21 @@ public abstract class ATMAbs implements ATMIntf{
 
     @Override
     public void saveCells(){
-        for (CellIntf cell :cells){
+        for (Cell cell :cells){
             cellCareTaker.put(cell, cell.saveMemento());
         }
     }
 
     @Override
     public void restoreCells(){
-        for (CellIntf cell :cells){
+        for (Cell cell :cells){
             cell.restoreMemento(cellCareTaker.get(cell));
         }
     }
 
-    private void fillCellMap(){
+    private void fillCellMap(Map<Integer, Integer> cellsMap){
         cellsMap.clear();;
-        for(CellIntf cell: cells){
+        for(Cell cell: cells){
             if (cellsMap.containsKey(cell.getDenomination())){
                 cellsMap.put(cell.getDenomination(), cell.getCount() + cellsMap.get(cell.getDenomination()));
             }else{
