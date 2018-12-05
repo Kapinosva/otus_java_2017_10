@@ -41,7 +41,6 @@ public class Dao{
     }
 
     public final <T extends DataSet> T load(long id, Class<T> datasetClass){
-
         DataSetSQL<T> userDataSetSQL = DataSetSQLs.getDataSetSQL(datasetClass);
         String selectSQL = userDataSetSQL.getSelectSQL();
         try {
@@ -110,6 +109,7 @@ public class Dao{
 
     private <T extends DataSet> Map<String, String> getFieldValueMap(T dataSet){
         Map<String, String> result = new LinkedHashMap<>();
+
         Class dataSetClass= dataSet.getClass();
         DataSetSQLs.getDataSetSQL(dataSetClass).getFields();
         for(Field field: dataSetClass.getDeclaredFields()){
@@ -122,10 +122,9 @@ public class Dao{
                 }else if (DataSet.class.isAssignableFrom(field.getType())){
                     //links to another object must be save before
                     result.put(field.getName() + "_id", Long.toString(((DataSet)field.get(dataSet)).getId()));
-                }else if (Collection.class.isAssignableFrom(field.getType())){
+                }else if (!Collection.class.isAssignableFrom(field.getType())){
                     //Collections need to save after the main object saved.
                     //That have id main object.
-                } else{
                     throw new IllegalArgumentException("Not supported field type " + field.getType().getCanonicalName());
                 }
             } catch (IllegalAccessException e) {

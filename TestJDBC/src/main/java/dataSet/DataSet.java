@@ -2,6 +2,8 @@ package dataSet;
 
 import dataSet.dataSetSQL.DataSetSQL;
 import dataSet.dataSetSQL.DataSetSQLs;
+import dataSet.visitor.DataSetVisitor;
+
 import javax.persistence.*;
 
 @MappedSuperclass
@@ -28,4 +30,5 @@ public abstract class DataSet {
         return getDataSetSQL().getInsertSQL();
     }
 
+    abstract public void doService(DataSetVisitor visitor);
 }

@@ -1,5 +1,7 @@
 package dataSet;
 
+import dataSet.visitor.DataSetVisitor;
+
 import javax.persistence.*;
 
 @Entity
@@ -33,6 +35,10 @@ public class Address extends DataSet {
         this.street = street;
         this.house = house;
         this.flat = flat;
+    }
+    @Override
+    public void doService(DataSetVisitor visitor) {
+        visitor.accept(this);
     }
 
 }

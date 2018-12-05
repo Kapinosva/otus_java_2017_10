@@ -7,6 +7,7 @@ import dataSet.User;
 
 import dataSet.dataSetSQL.DataSetSQL;
 import dataSet.dataSetSQL.DataSetSQLs;
+import dataSet.visitor.Saver;
 import dbService.dao.Dao;
 import dbService.dao.UserDao;
 import org.h2.jdbcx.JdbcDataSource;
@@ -51,16 +52,13 @@ public class DBServiceH2 implements DBService {
 
     @Override
     public <T extends DataSet> void save(T dataset) {
-        if (dataset instanceof User){
-            UserDao dao = new UserDao(connection, executor);
-            dao.saveUser((User)dataset);
-        }else {
-            Dao dao = new Dao(connection, executor);;
-        }
+        Dao dao = new Dao(connection, executor);;
+        dataset.doService(new Saver(dao));
     }
 
     @Override
     public <T extends DataSet> T load(long id, Class<T> datasetClass) {
+
         if (datasetClass.equals(User.class)){
             UserDao dao = new UserDao(connection, executor);
             return (T)dao.loadUser(id);
