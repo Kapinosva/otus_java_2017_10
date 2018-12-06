@@ -5,16 +5,13 @@ import dataSet.dataSetSQL.DataSetSQL;
 import dataSet.dataSetSQL.DataSetSQLs;
 import dbService.Executor;
 
-import javax.xml.crypto.Data;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Collection;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Dao{
     private Connection connection;
@@ -39,64 +36,71 @@ public class Dao{
         }
 
     }
-
-    public final <T extends DataSet> T load(long id, Class<T> datasetClass){
-        DataSetSQL<T> userDataSetSQL = DataSetSQLs.getDataSetSQL(datasetClass);
-        String selectSQL = userDataSetSQL.getSelectSQL();
+    public final <T extends DataSet> List<T> loadList(String masterFieldName, long id, Class<T> datasetClass){
+        List<T> res = new ArrayList<>();
+        DataSetSQL<T> dataSetSQL = DataSetSQLs.getDataSetSQL(datasetClass);
+        String selectSQL = dataSetSQL.getSelectSQL() + " WHERE " + masterFieldName + " = ?";
         try {
-            T result = datasetClass.getDeclaredConstructor().newInstance();
+            executor.execute(selectSQL, s -> {
+                        s.setLong(1, id);
+                    }, s->{
+                        ResultSet rs = s.getResultSet();
+                        while(rs.next()) {
+                            T result = (T)createEmptyObject(datasetClass);
+                            result = load(rs.getLong(1), datasetClass);
+                            res.add(result);
+                        }
+                    }
+            );
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return res;
+
+    }
+
+
+
+    public final <T extends DataSet> T load(String filterFieldName, long id, Class<T> datasetClass){
+        DataSetSQL<T> dataSetSQL = DataSetSQLs.getDataSetSQL(datasetClass);
+        String selectSQL = dataSetSQL.getSelectSQL() + " WHERE " + filterFieldName + " = ?";
+        T result = (T)createEmptyObject(datasetClass);
+        result.setId(id);
+        try {
             executor.execute(selectSQL, s -> {
                         s.setLong(1, id);
                     }, s->{
                         ResultSet rs = s.getResultSet();
                         rs.next();
-                        try {
-                            for (String fieldName : userDataSetSQL.getFields()) {
+                        for (String fieldName : dataSetSQL.getFields()) {
+                            try {
                                 if (fieldName.endsWith("_id")){
                                     Field field = datasetClass.getDeclaredField(fieldName.replace("_id", ""));
-                                    Object o = null;
-                                    try {
-                                        o = field.getType().getDeclaredConstructor().newInstance();
-                                    } catch (InstantiationException e) {
-                                        e.printStackTrace();
-                                    } catch (InvocationTargetException e) {
-                                        e.printStackTrace();
-                                    } catch (NoSuchMethodException e) {
-                                        e.printStackTrace();
-                                    }
+                                    Object o = createEmptyObject(field.getType());
                                     Field idField = o.getClass().getSuperclass().getDeclaredField("id");
-                                    idField.setAccessible(true);
-                                    field.setAccessible(true);
-                                    idField.set(o, rs.getObject(fieldName));
-                                    field.set(result, o);;
+                                    setField(idField, o, rs.getObject(fieldName));
+                                    setField(field, result, o);
                                 }else {
-                                    Field field = datasetClass.getDeclaredField(fieldName);
-                                    field.setAccessible(true);
-                                    field.set(result, rs.getObject(fieldName));
+                                    if (!fieldName.equals("id")){
+                                        Field field = datasetClass.getDeclaredField(fieldName);
+                                        setField(field, result, rs.getObject(fieldName));
+                                    }
                                 }
+                            } catch (NoSuchFieldException e) {
+                                e.printStackTrace();
                             }
-                        } catch (IllegalAccessException e) {
-                            e.printStackTrace();
-                        } catch (NoSuchFieldException e) {
-                            e.printStackTrace();
                         }
                     }
             );
-            result.setId(id);
-            return result;
         } catch (SQLException e) {
             e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
         }
-        return null;
+        return result;
+    }
 
+
+    public final <T extends DataSet> T load(long id, Class<T> datasetClass){
+        return load("id", id, datasetClass);
     }
 
     private void setStatementValues(Collection<String> values, PreparedStatement statement) throws SQLException {
@@ -133,4 +137,33 @@ public class Dao{
         }
         return result;
     }
+
+
+    private void setField(Field field, Object obj,Object value){
+        boolean wasAccessible = field.isAccessible();
+        field.setAccessible(true);
+        try {
+            field.set(obj, value);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        field.setAccessible(wasAccessible);
+    }
+
+    private Object createEmptyObject(Class objectClass){
+        Object result = null;
+        try {
+            result = objectClass.getDeclaredConstructor().newInstance();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
 }

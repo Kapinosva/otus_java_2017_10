@@ -19,10 +19,14 @@ public class User extends DataSet {
 
     @OneToOne(cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
-    private Address address;
+    private Address address = new Address();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "phoneMaster")
-    private List<Phone> phones;
+    private List<Phone> phones = new ArrayList<>();
+
+    public long getAddressId() {
+        return address.getId();
+    }
 
     public void setAge(int age) {
         this.age = age;
@@ -40,6 +44,9 @@ public class User extends DataSet {
 
     public void setPhones(List<Phone> phones) {
         this.phones = phones;
+        for (Phone phone: phones){
+            phone.setPhoneMaster(this);
+        }
     }
 
     public Address getAddress() {
@@ -63,7 +70,7 @@ public class User extends DataSet {
         this.name = name;
     }
     public User(int age, String name, List<Phone> phones){
-        this.phones = phones;
+        this.setPhones(phones);
         this.age = age;
         this.name = name;
     }
@@ -73,8 +80,8 @@ public class User extends DataSet {
         return "id : " + this.getId() +
                 "\nname : " + this.name +
                 "\nage : " + this.age  +
-                " \nPHONES: " + ((phones == null) ? "" : phones.stream().map(s->s.getPhoneNumber()).collect(Collectors.joining(", ")))+
-                " \nAdress: " + ((address == null) ? "" : address.getStreet() + " " + address.getHouse() + " " + address.getFlat());
+                " \nPHONES: " + ((phones == null) ? "" : phones.stream().map(Phone::getPhoneNumber).collect(Collectors.joining(", ")))+
+                " \nAddress: " + ((address == null) ? "" : address.getStreet() + " " + address.getHouse() + " " + address.getFlat());
     }
 
     @Override

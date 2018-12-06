@@ -1,12 +1,9 @@
 package dataSet.dataSetSQL;
 
 import dataSet.DataSet;
-import dataSet.User;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
@@ -40,6 +37,7 @@ public class DataSetSQL<T extends DataSet> {
         this.tableName = tableName;
 
         fields = new ArrayList<>();
+        fields.add("id");
         for(Field field: dataSetClass.getDeclaredFields()){
             if (field.getType().isPrimitive() || field.getType().equals(String.class)
                     || Number.class.isAssignableFrom(field.getType())) {
@@ -51,15 +49,14 @@ public class DataSetSQL<T extends DataSet> {
 
         insertSQL = "insert into " + tableName + " ("
                 + fields.stream().collect(Collectors.joining(","))
-                + ") values(" + fields.stream().map((s)->s ="?").collect(Collectors.joining(","))
+                + ") values(" + fields.stream().map((s)-> s.equals("id")?"null":"?").collect(Collectors.joining(","))
                 + ");";
         updateSQL = "UPDATE " + tableName + " SET "
                 + fields.stream().collect(Collectors.joining(" = ?,"))
                 + "=? where id = ";
         selectSQL = "SELECT  " +
                 getFields().stream().collect(Collectors.joining(", "))
-                + " FROM "+ tableName
-                + " WHERE ID = ?;";
+                + " FROM "+ tableName;
     }
 
     public String getCreateSQL() {

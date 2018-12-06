@@ -1883,3 +1883,392 @@ No data is available [2000-187]
 12-03 23:54:18 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLException: Нет данных
 No data is available [2000-187]
+12-06 13:31:37 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Нет данных
+No data is available [2000-187]
+12-06 13:40:45 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Столбец "MASTERPHONE_ID" не найден
+Column "MASTERPHONE_ID" not found; SQL statement:
+SELECT  phoneMaster_id, phoneNumber FROM phone WHERE masterPhone_id = ? [42122-187]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.expression.ExpressionColumn.optimize(ExpressionColumn.java:147)
+	at org.h2.expression.Comparison.optimize(Comparison.java:178)
+	at org.h2.command.dml.Select.prepare(Select.java:880)
+	at org.h2.command.Parser.prepareCommand(Parser.java:247)
+	at org.h2.engine.Session.prepareLocal(Session.java:461)
+	at org.h2.engine.Session.prepareCommand(Session.java:403)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1189)
+	at org.h2.jdbc.JdbcPreparedStatement.<init>(JdbcPreparedStatement.java:72)
+	at org.h2.jdbc.JdbcConnection.prepareStatement(JdbcConnection.java:277)
+	at org.h2.jdbc.JdbcConnection.prepareStatement(JdbcConnection.java:1123)
+	at dbService.Executor.execute(Executor.java:27)
+	at dbService.dao.Dao.loadList(Dao.java:44)
+	at dataSet.visitor.Loader.accept(Loader.java:26)
+	at dataSet.User.doService(User.java:89)
+	at dbService.DBServiceH2.load(DBServiceH2.java:64)
+	at Main.main(Main.java:25)
+12-06 13:40:45 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Столбец "MASTERPHONE_ID" не найден
+Column "MASTERPHONE_ID" not found; SQL statement:
+SELECT  phoneMaster_id, phoneNumber FROM phone WHERE masterPhone_id = ? [42122-187]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.expression.ExpressionColumn.optimize(ExpressionColumn.java:147)
+	at org.h2.expression.Comparison.optimize(Comparison.java:178)
+	at org.h2.command.dml.Select.prepare(Select.java:880)
+	at org.h2.command.Parser.prepareCommand(Parser.java:247)
+	at org.h2.engine.Session.prepareLocal(Session.java:461)
+	at org.h2.engine.Session.prepareCommand(Session.java:403)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1189)
+	at org.h2.jdbc.JdbcPreparedStatement.<init>(JdbcPreparedStatement.java:72)
+	at org.h2.jdbc.JdbcConnection.prepareStatement(JdbcConnection.java:277)
+	at org.h2.jdbc.JdbcConnection.prepareStatement(JdbcConnection.java:1123)
+	at dbService.Executor.execute(Executor.java:27)
+	at dbService.dao.Dao.loadList(Dao.java:44)
+	at dataSet.visitor.Loader.accept(Loader.java:26)
+	at dataSet.User.doService(User.java:89)
+	at dbService.DBServiceH2.load(DBServiceH2.java:64)
+	at Main.main(Main.java:25)
+12-06 13:41:25 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Нет данных
+No data is available [2000-187]
+12-06 13:41:57 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Нет данных
+No data is available [2000-187]
+12-06 13:42:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Нет данных
+No data is available [2000-187]
+12-06 13:42:52 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Нет данных
+No data is available [2000-187]
+12-06 13:43:37 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Нет данных
+No data is available [2000-187]
+12-06 13:44:20 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Нет данных
+No data is available [2000-187]
+12-06 13:47:16 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Нет данных
+No data is available [2000-187]
+12-06 13:50:05 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Нет данных
+No data is available [2000-187]
+12-06 13:52:54 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Параметр "#4" не установлен
+Parameter "#4" is not set; SQL statement:
+insert into address (id,street,house,flat) values(?,?,?,?); [90012-187]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.expression.Parameter.checkSet(Parameter.java:80)
+	at org.h2.command.Prepared.checkParameters(Prepared.java:164)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:77)
+	at org.h2.command.Command.executeUpdate(Command.java:254)
+	at org.h2.jdbc.JdbcPreparedStatement.execute(JdbcPreparedStatement.java:198)
+	at dbService.Executor.execute(Executor.java:32)
+	at dbService.dao.Dao.save(Dao.java:26)
+	at dataSet.visitor.Saver.accept(Saver.java:18)
+	at dataSet.visitor.Saver.accept(Saver.java:29)
+	at dataSet.User.doService(User.java:89)
+	at dbService.DBServiceH2.save(DBServiceH2.java:57)
+	at Main.main(Main.java:18)
+12-06 13:52:54 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Параметр "#4" не установлен
+Parameter "#4" is not set; SQL statement:
+insert into user (id,age,name,address_id) values(?,?,?,?); [90012-187]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.expression.Parameter.checkSet(Parameter.java:80)
+	at org.h2.command.Prepared.checkParameters(Prepared.java:164)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:77)
+	at org.h2.command.Command.executeUpdate(Command.java:254)
+	at org.h2.jdbc.JdbcPreparedStatement.execute(JdbcPreparedStatement.java:198)
+	at dbService.Executor.execute(Executor.java:32)
+	at dbService.dao.Dao.save(Dao.java:26)
+	at dataSet.visitor.Saver.accept(Saver.java:30)
+	at dataSet.User.doService(User.java:89)
+	at dbService.DBServiceH2.save(DBServiceH2.java:57)
+	at Main.main(Main.java:18)
+12-06 13:52:54 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Параметр "#3" не установлен
+Parameter "#3" is not set; SQL statement:
+insert into phone (id,phoneMaster_id,phoneNumber) values(?,?,?); [90012-187]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.expression.Parameter.checkSet(Parameter.java:80)
+	at org.h2.command.Prepared.checkParameters(Prepared.java:164)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:77)
+	at org.h2.command.Command.executeUpdate(Command.java:254)
+	at org.h2.jdbc.JdbcPreparedStatement.execute(JdbcPreparedStatement.java:198)
+	at dbService.Executor.execute(Executor.java:32)
+	at dbService.dao.Dao.save(Dao.java:26)
+	at dataSet.visitor.Saver.accept(Saver.java:23)
+	at dataSet.visitor.Saver.accept(Saver.java:32)
+	at dataSet.User.doService(User.java:89)
+	at dbService.DBServiceH2.save(DBServiceH2.java:57)
+	at Main.main(Main.java:18)
+12-06 13:52:54 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Параметр "#4" не установлен
+Parameter "#4" is not set; SQL statement:
+insert into address (id,street,house,flat) values(?,?,?,?); [90012-187]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.expression.Parameter.checkSet(Parameter.java:80)
+	at org.h2.command.Prepared.checkParameters(Prepared.java:164)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:77)
+	at org.h2.command.Command.executeUpdate(Command.java:254)
+	at org.h2.jdbc.JdbcPreparedStatement.execute(JdbcPreparedStatement.java:198)
+	at dbService.Executor.execute(Executor.java:32)
+	at dbService.dao.Dao.save(Dao.java:26)
+	at dataSet.visitor.Saver.accept(Saver.java:18)
+	at dataSet.visitor.Saver.accept(Saver.java:29)
+	at dataSet.User.doService(User.java:89)
+	at dbService.DBServiceH2.save(DBServiceH2.java:57)
+	at Main.main(Main.java:23)
+12-06 13:52:54 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Параметр "#4" не установлен
+Parameter "#4" is not set; SQL statement:
+insert into user (id,age,name,address_id) values(?,?,?,?); [90012-187]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.expression.Parameter.checkSet(Parameter.java:80)
+	at org.h2.command.Prepared.checkParameters(Prepared.java:164)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:77)
+	at org.h2.command.Command.executeUpdate(Command.java:254)
+	at org.h2.jdbc.JdbcPreparedStatement.execute(JdbcPreparedStatement.java:198)
+	at dbService.Executor.execute(Executor.java:32)
+	at dbService.dao.Dao.save(Dao.java:26)
+	at dataSet.visitor.Saver.accept(Saver.java:30)
+	at dataSet.User.doService(User.java:89)
+	at dbService.DBServiceH2.save(DBServiceH2.java:57)
+	at Main.main(Main.java:23)
+12-06 13:52:54 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Параметр "#3" не установлен
+Parameter "#3" is not set; SQL statement:
+insert into phone (id,phoneMaster_id,phoneNumber) values(?,?,?); [90012-187]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.expression.Parameter.checkSet(Parameter.java:80)
+	at org.h2.command.Prepared.checkParameters(Prepared.java:164)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:77)
+	at org.h2.command.Command.executeUpdate(Command.java:254)
+	at org.h2.jdbc.JdbcPreparedStatement.execute(JdbcPreparedStatement.java:198)
+	at dbService.Executor.execute(Executor.java:32)
+	at dbService.dao.Dao.save(Dao.java:26)
+	at dataSet.visitor.Saver.accept(Saver.java:23)
+	at dataSet.visitor.Saver.accept(Saver.java:32)
+	at dataSet.User.doService(User.java:89)
+	at dbService.DBServiceH2.save(DBServiceH2.java:57)
+	at Main.main(Main.java:23)
+12-06 13:54:41 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Параметр "#4" не установлен
+Parameter "#4" is not set; SQL statement:
+insert into address (id,street,house,flat) values(?,?,?,?); [90012-187]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.expression.Parameter.checkSet(Parameter.java:80)
+	at org.h2.command.Prepared.checkParameters(Prepared.java:164)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:77)
+	at org.h2.command.Command.executeUpdate(Command.java:254)
+	at org.h2.jdbc.JdbcPreparedStatement.execute(JdbcPreparedStatement.java:198)
+	at dbService.Executor.execute(Executor.java:32)
+	at dbService.dao.Dao.save(Dao.java:26)
+	at dataSet.visitor.Saver.accept(Saver.java:18)
+	at dataSet.visitor.Saver.accept(Saver.java:29)
+	at dataSet.User.doService(User.java:89)
+	at dbService.DBServiceH2.save(DBServiceH2.java:57)
+	at Main.main(Main.java:18)
+12-06 13:55:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Параметр "#4" не установлен
+Parameter "#4" is not set; SQL statement:
+insert into user (id,age,name,address_id) values(?,?,?,?); [90012-187]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.expression.Parameter.checkSet(Parameter.java:80)
+	at org.h2.command.Prepared.checkParameters(Prepared.java:164)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:77)
+	at org.h2.command.Command.executeUpdate(Command.java:254)
+	at org.h2.jdbc.JdbcPreparedStatement.execute(JdbcPreparedStatement.java:198)
+	at dbService.Executor.execute(Executor.java:32)
+	at dbService.dao.Dao.save(Dao.java:26)
+	at dataSet.visitor.Saver.accept(Saver.java:30)
+	at dataSet.User.doService(User.java:89)
+	at dbService.DBServiceH2.save(DBServiceH2.java:57)
+	at Main.main(Main.java:18)
+12-06 13:55:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Параметр "#3" не установлен
+Parameter "#3" is not set; SQL statement:
+insert into phone (id,phoneMaster_id,phoneNumber) values(?,?,?); [90012-187]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.expression.Parameter.checkSet(Parameter.java:80)
+	at org.h2.command.Prepared.checkParameters(Prepared.java:164)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:77)
+	at org.h2.command.Command.executeUpdate(Command.java:254)
+	at org.h2.jdbc.JdbcPreparedStatement.execute(JdbcPreparedStatement.java:198)
+	at dbService.Executor.execute(Executor.java:32)
+	at dbService.dao.Dao.save(Dao.java:26)
+	at dataSet.visitor.Saver.accept(Saver.java:23)
+	at dataSet.visitor.Saver.accept(Saver.java:32)
+	at dataSet.User.doService(User.java:89)
+	at dbService.DBServiceH2.save(DBServiceH2.java:57)
+	at Main.main(Main.java:18)
+12-06 13:55:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Параметр "#4" не установлен
+Parameter "#4" is not set; SQL statement:
+insert into address (id,street,house,flat) values(?,?,?,?); [90012-187]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.expression.Parameter.checkSet(Parameter.java:80)
+	at org.h2.command.Prepared.checkParameters(Prepared.java:164)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:77)
+	at org.h2.command.Command.executeUpdate(Command.java:254)
+	at org.h2.jdbc.JdbcPreparedStatement.execute(JdbcPreparedStatement.java:198)
+	at dbService.Executor.execute(Executor.java:32)
+	at dbService.dao.Dao.save(Dao.java:26)
+	at dataSet.visitor.Saver.accept(Saver.java:18)
+	at dataSet.visitor.Saver.accept(Saver.java:29)
+	at dataSet.User.doService(User.java:89)
+	at dbService.DBServiceH2.save(DBServiceH2.java:57)
+	at Main.main(Main.java:23)
+12-06 13:55:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Параметр "#4" не установлен
+Parameter "#4" is not set; SQL statement:
+insert into user (id,age,name,address_id) values(?,?,?,?); [90012-187]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.expression.Parameter.checkSet(Parameter.java:80)
+	at org.h2.command.Prepared.checkParameters(Prepared.java:164)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:77)
+	at org.h2.command.Command.executeUpdate(Command.java:254)
+	at org.h2.jdbc.JdbcPreparedStatement.execute(JdbcPreparedStatement.java:198)
+	at dbService.Executor.execute(Executor.java:32)
+	at dbService.dao.Dao.save(Dao.java:26)
+	at dataSet.visitor.Saver.accept(Saver.java:30)
+	at dataSet.User.doService(User.java:89)
+	at dbService.DBServiceH2.save(DBServiceH2.java:57)
+	at Main.main(Main.java:23)
+12-06 13:55:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Параметр "#3" не установлен
+Parameter "#3" is not set; SQL statement:
+insert into phone (id,phoneMaster_id,phoneNumber) values(?,?,?); [90012-187]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.expression.Parameter.checkSet(Parameter.java:80)
+	at org.h2.command.Prepared.checkParameters(Prepared.java:164)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:77)
+	at org.h2.command.Command.executeUpdate(Command.java:254)
+	at org.h2.jdbc.JdbcPreparedStatement.execute(JdbcPreparedStatement.java:198)
+	at dbService.Executor.execute(Executor.java:32)
+	at dbService.dao.Dao.save(Dao.java:26)
+	at dataSet.visitor.Saver.accept(Saver.java:23)
+	at dataSet.visitor.Saver.accept(Saver.java:32)
+	at dataSet.User.doService(User.java:89)
+	at dbService.DBServiceH2.save(DBServiceH2.java:57)
+	at Main.main(Main.java:23)
+12-06 13:59:10 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Нет данных
+No data is available [2000-187]
+12-06 13:59:10 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Нет данных
+No data is available [2000-187]
+12-06 14:00:12 database: flush
+org.h2.message.DbException: Внутренняя ошибка: "java.lang.IllegalStateException: The file is locked: nio:D:/Otus/MyHomeWork/otus_java_2017_10/TestJDBC/h2db.mv.db [1.4.187/7]"
+General error: "java.lang.IllegalStateException: The file is locked: nio:D:/Otus/MyHomeWork/otus_java_2017_10/TestJDBC/h2db.mv.db [1.4.187/7]" [50000-187]
+	at org.h2.message.DbException.get(DbException.java:168)
+	at org.h2.message.DbException.convert(DbException.java:295)
+	at org.h2.mvstore.db.MVTableEngine$1.uncaughtException(MVTableEngine.java:93)
+	at org.h2.mvstore.MVStore.panic(MVStore.java:368)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:351)
+	at org.h2.mvstore.MVStore$Builder.open(MVStore.java:2782)
+	at org.h2.mvstore.db.MVTableEngine$Store.<init>(MVTableEngine.java:162)
+	at org.h2.mvstore.db.MVTableEngine.init(MVTableEngine.java:98)
+	at org.h2.engine.Database.getPageStore(Database.java:2389)
+	at org.h2.engine.Database.open(Database.java:669)
+	at org.h2.engine.Database.openDatabase(Database.java:266)
+	at org.h2.engine.Database.<init>(Database.java:260)
+	at org.h2.engine.Engine.openSession(Engine.java:60)
+	at org.h2.engine.Engine.openSession(Engine.java:167)
+	at org.h2.engine.Engine.createSessionAndValidate(Engine.java:145)
+	at org.h2.engine.Engine.createSession(Engine.java:128)
+	at org.h2.engine.Engine.createSession(Engine.java:26)
+	at org.h2.engine.SessionRemote.connectEmbeddedOrServer(SessionRemote.java:347)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:108)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:92)
+	at org.h2.Driver.connect(Driver.java:72)
+	at java.sql.DriverManager.getConnection(DriverManager.java:664)
+	at java.sql.DriverManager.getConnection(DriverManager.java:247)
+	at dbService.DBServiceH2.<init>(DBServiceH2.java:37)
+	at Main.main(Main.java:12)
+Caused by: org.h2.jdbc.JdbcSQLException: Внутренняя ошибка: "java.lang.IllegalStateException: The file is locked: nio:D:/Otus/MyHomeWork/otus_java_2017_10/TestJDBC/h2db.mv.db [1.4.187/7]"
+General error: "java.lang.IllegalStateException: The file is locked: nio:D:/Otus/MyHomeWork/otus_java_2017_10/TestJDBC/h2db.mv.db [1.4.187/7]" [50000-187]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	... 25 more
+Caused by: java.lang.IllegalStateException: The file is locked: nio:D:/Otus/MyHomeWork/otus_java_2017_10/TestJDBC/h2db.mv.db [1.4.187/7]
+	at org.h2.mvstore.DataUtils.newIllegalStateException(DataUtils.java:773)
+	at org.h2.mvstore.FileStore.open(FileStore.java:172)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:337)
+	... 20 more
+12-06 14:00:43 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Нет данных
+No data is available [2000-187]
+12-06 14:00:43 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Нет данных
+No data is available [2000-187]
+12-06 14:01:18 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Нет данных
+No data is available [2000-187]
+12-06 14:01:18 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Нет данных
+No data is available [2000-187]
+12-06 14:08:48 database: flush
+org.h2.message.DbException: Внутренняя ошибка: "java.lang.IllegalStateException: The file is locked: nio:D:/Otus/MyHomeWork/otus_java_2017_10/TestJDBC/h2db.mv.db [1.4.187/7]"
+General error: "java.lang.IllegalStateException: The file is locked: nio:D:/Otus/MyHomeWork/otus_java_2017_10/TestJDBC/h2db.mv.db [1.4.187/7]" [50000-187]
+	at org.h2.message.DbException.get(DbException.java:168)
+	at org.h2.message.DbException.convert(DbException.java:295)
+	at org.h2.mvstore.db.MVTableEngine$1.uncaughtException(MVTableEngine.java:93)
+	at org.h2.mvstore.MVStore.panic(MVStore.java:368)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:351)
+	at org.h2.mvstore.MVStore$Builder.open(MVStore.java:2782)
+	at org.h2.mvstore.db.MVTableEngine$Store.<init>(MVTableEngine.java:162)
+	at org.h2.mvstore.db.MVTableEngine.init(MVTableEngine.java:98)
+	at org.h2.engine.Database.getPageStore(Database.java:2389)
+	at org.h2.engine.Database.open(Database.java:669)
+	at org.h2.engine.Database.openDatabase(Database.java:266)
+	at org.h2.engine.Database.<init>(Database.java:260)
+	at org.h2.engine.Engine.openSession(Engine.java:60)
+	at org.h2.engine.Engine.openSession(Engine.java:167)
+	at org.h2.engine.Engine.createSessionAndValidate(Engine.java:145)
+	at org.h2.engine.Engine.createSession(Engine.java:128)
+	at org.h2.engine.Engine.createSession(Engine.java:26)
+	at org.h2.engine.SessionRemote.connectEmbeddedOrServer(SessionRemote.java:347)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:108)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:92)
+	at org.h2.Driver.connect(Driver.java:72)
+	at java.sql.DriverManager.getConnection(DriverManager.java:664)
+	at java.sql.DriverManager.getConnection(DriverManager.java:247)
+	at dbService.DBServiceH2.<init>(DBServiceH2.java:37)
+	at Main.main(Main.java:12)
+Caused by: org.h2.jdbc.JdbcSQLException: Внутренняя ошибка: "java.lang.IllegalStateException: The file is locked: nio:D:/Otus/MyHomeWork/otus_java_2017_10/TestJDBC/h2db.mv.db [1.4.187/7]"
+General error: "java.lang.IllegalStateException: The file is locked: nio:D:/Otus/MyHomeWork/otus_java_2017_10/TestJDBC/h2db.mv.db [1.4.187/7]" [50000-187]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	... 25 more
+Caused by: java.lang.IllegalStateException: The file is locked: nio:D:/Otus/MyHomeWork/otus_java_2017_10/TestJDBC/h2db.mv.db [1.4.187/7]
+	at org.h2.mvstore.DataUtils.newIllegalStateException(DataUtils.java:773)
+	at org.h2.mvstore.FileStore.open(FileStore.java:172)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:337)
+	... 20 more

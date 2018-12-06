@@ -8,6 +8,10 @@ import javax.persistence.*;
 @Table(name = "phone")
 public class Phone extends DataSet {
 
+    public void setPhoneMaster(User phoneMaster) {
+        this.phoneMaster = phoneMaster;
+    }
+
     @ManyToOne(cascade = CascadeType.ALL)
     private User phoneMaster;
 

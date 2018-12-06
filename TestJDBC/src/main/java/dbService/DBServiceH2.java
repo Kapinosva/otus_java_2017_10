@@ -5,18 +5,13 @@ import dataSet.DataSet;
 import dataSet.Phone;
 import dataSet.User;
 
-import dataSet.dataSetSQL.DataSetSQL;
 import dataSet.dataSetSQL.DataSetSQLs;
+import dataSet.visitor.Loader;
 import dataSet.visitor.Saver;
 import dbService.dao.Dao;
-import dbService.dao.UserDao;
 import org.h2.jdbcx.JdbcDataSource;
 
-import javax.xml.crypto.Data;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.sql.*;
-import java.util.*;
 
 public class DBServiceH2 implements DBService {
 
@@ -58,14 +53,10 @@ public class DBServiceH2 implements DBService {
 
     @Override
     public <T extends DataSet> T load(long id, Class<T> datasetClass) {
-
-        if (datasetClass.equals(User.class)){
-            UserDao dao = new UserDao(connection, executor);
-            return (T)dao.loadUser(id);
-        }else {
-            Dao dao = new Dao(connection, executor);
-            return dao.load(id,datasetClass);
-        }
+        Dao dao = new Dao(connection, executor);
+        T result = dao.load(id,datasetClass);
+        result.doService(new Loader(dao));
+        return result;
     }
 
     @Override

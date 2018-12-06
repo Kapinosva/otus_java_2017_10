@@ -5,9 +5,7 @@ import dataSet.DataSet;
 import dataSet.Phone;
 import dataSet.User;
 
-import java.lang.reflect.Field;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class DataSetSQLs {
 
@@ -27,14 +25,22 @@ public class DataSetSQLs {
         );
         dataSetSqls.put(         Phone.class, new DataSetSQL<Phone>(
                         "phone"
-                        ,"create table if not exists phone (id bigint auto_increment, phonenumber varchar(256), phoneMaster_id bigint, primary key (id));\n "
+                        ,"create table if not exists phone (" +
+                        "id bigint auto_increment" +
+                        ", phonenumber varchar(256)" +
+                        ", phoneMaster_id bigint" +
+                        ", primary key (id));\n "
                         , Phone.class
                 )
         );
         dataSetSqls.put(
                 Address.class, new DataSetSQL<Address>(
                         "address"
-                        ,"create table if not exists address (id bigint auto_increment, street varchar(256), house varchar(256), flat varchar(256), primary key (id));\n "
+                        ,"create table if not exists address (" +
+                        "id bigint auto_increment" +
+                        ", street varchar(256)" +
+                        ", house varchar(256)" +
+                        ", flat varchar(256), primary key (id));\n "
                         , Address.class
                 )
         );

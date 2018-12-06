@@ -1,7 +1,6 @@
 package dataSet.visitor;
 
 import dataSet.Address;
-import dataSet.DataSet;
 import dataSet.Phone;
 import dataSet.User;
 import dbService.dao.Dao;
