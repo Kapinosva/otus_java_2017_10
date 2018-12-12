@@ -1,5 +1,6 @@
 package dataSet.visitor;
 
+import accountService.account.UserAccount;
 import dataSet.Address;
 import dataSet.Phone;
 import dataSet.User;
@@ -30,5 +31,10 @@ public class Saver implements DataSetVisitor {
         for (Phone phone: user.getPhones()){
             accept(phone);
         }
+    }
+
+    @Override
+    public void accept(UserAccount user) {
+
     }
 }

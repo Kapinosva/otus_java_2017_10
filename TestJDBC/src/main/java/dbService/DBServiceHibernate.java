@@ -1,14 +1,22 @@
 package dbService;
 
+import accountService.account.UserAccount;
 import dataSet.Address;
 import dataSet.DataSet;
 import dataSet.Phone;
 import dataSet.User;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.query.Query;
 import org.hibernate.service.ServiceRegistry;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import java.util.Collection;
 
 public class DBServiceHibernate implements DBService {
 
@@ -26,7 +34,7 @@ public class DBServiceHibernate implements DBService {
     @Override
     public <T extends DataSet> void save(T dataset) {
         try (Session session = sessionFactory.openSession()){
-            dataset.setId((Long) session.save(dataset));
+            session.save(dataset);
         }
     }
 
@@ -37,11 +45,37 @@ public class DBServiceHibernate implements DBService {
         }
     }
 
+    @Override
+    public UserAccount getUserByLogin(String login) {
+        try (Session session = sessionFactory.openSession()){
+            CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+            CriteriaQuery<UserAccount> criteria = criteriaBuilder.createQuery(UserAccount.class);
+            Root<UserAccount> from = criteria.from(UserAccount.class);
+            criteria.where(criteriaBuilder.equal(from.get("login"),login));
+            Query<UserAccount> query = session.createQuery(criteria);
+            return query.uniqueResult();
+        }
+    }
+
+    @Override
+    public Collection<UserAccount> getUserList() {
+        try (Session session = sessionFactory.openSession()){
+            CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+            CriteriaQuery<UserAccount> criteria = criteriaBuilder.createQuery(UserAccount.class);
+            Root<UserAccount> from = criteria.from(UserAccount.class);
+            criteria.orderBy(criteriaBuilder.asc(from.get("id")));
+            Query<UserAccount> query = session.createQuery(criteria);
+            return query.getResultList();
+        }
+    }
+
+
     private Configuration getH2HibernateConfiguration() {
         Configuration configuration = new Configuration();
         configuration.addAnnotatedClass(User.class);
         configuration.addAnnotatedClass(Phone.class);
         configuration.addAnnotatedClass(Address.class);
+        configuration.addAnnotatedClass(UserAccount.class);
 
         configuration.setProperty("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
         configuration.setProperty("hibernate.connection.driver_class", "org.h2.Driver");

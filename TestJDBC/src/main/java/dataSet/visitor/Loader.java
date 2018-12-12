@@ -1,5 +1,6 @@
 package dataSet.visitor;
 
+import accountService.account.UserAccount;
 import dataSet.Address;
 import dataSet.Phone;
 import dataSet.User;
@@ -26,5 +27,10 @@ public class Loader implements DataSetVisitor {
     public void accept(User user) {
         user.setAddress(dao.load( user.getAddressId(),Address.class));
         user.setPhones(dao.loadList("phoneMaster_id", user.getId(),Phone.class));
+    }
+
+    @Override
+    public void accept(UserAccount user) {
+
     }
 }

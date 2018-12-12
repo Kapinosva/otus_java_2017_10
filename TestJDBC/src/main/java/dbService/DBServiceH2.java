@@ -1,5 +1,6 @@
 package dbService;
 
+import accountService.account.UserAccount;
 import dataSet.Address;
 import dataSet.DataSet;
 import dataSet.Phone;
@@ -10,8 +11,10 @@ import dataSet.visitor.Loader;
 import dataSet.visitor.Saver;
 import dbService.dao.Dao;
 import org.h2.jdbcx.JdbcDataSource;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.sql.*;
+import java.util.Collection;
 
 public class DBServiceH2 implements DBService {
 
@@ -58,6 +61,17 @@ public class DBServiceH2 implements DBService {
         result.doService(new Loader(dao));
         return result;
     }
+
+    @Override
+    public UserAccount getUserByLogin(String login) {
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public Collection<UserAccount> getUserList() {
+        throw new NotImplementedException();
+    }
+
 
     @Override
     public void disconnect(){
