@@ -8,6 +8,7 @@ import dataSet.User;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
@@ -32,16 +33,18 @@ public class DBServiceHibernate implements DBService {
     }
 
     @Override
-    public <T extends DataSet> void save(T dataset) {
+    public <T extends DataSet> void save(T dataSet) {
         try (Session session = sessionFactory.openSession()){
-            session.save(dataset);
+            Transaction transaction = session.beginTransaction();
+            session.saveOrUpdate(dataSet);
+            transaction.commit();
         }
     }
 
     @Override
-    public <T extends DataSet> T load(long id, Class<T> datasetClass) {
+    public <T extends DataSet> T load(long id, Class<T> dataSetClass) {
         try (Session session = sessionFactory.openSession()){
-            return  session.load(datasetClass, id);
+            return  session.get(dataSetClass, id);
         }
     }
 

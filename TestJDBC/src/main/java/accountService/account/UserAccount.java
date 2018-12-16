@@ -14,6 +14,11 @@ public class UserAccount extends DataSet{
 
     @Column(name = "login")
     String login;
+    @Column(name = "name")
+    String name;
+    @Column(name = "pass")
+    String password;
+
 
     public UserAccount() {
 
@@ -22,12 +27,6 @@ public class UserAccount extends DataSet{
     public void setPassword(String password) {
         this.password = password;
     }
-
-    @Column(name = "name")
-    String name;
-    @Column(name = "pass")
-    String password;
-
 
     public void setLogin(String login) {
         this.login = login;

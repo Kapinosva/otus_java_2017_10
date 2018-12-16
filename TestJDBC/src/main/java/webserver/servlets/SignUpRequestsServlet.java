@@ -14,11 +14,11 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SignUplRequestsServlet extends HttpServlet {
+public class SignUpRequestsServlet extends HttpServlet {
 
     private Context context;
 
-    public SignUplRequestsServlet(Context context){
+    public SignUpRequestsServlet(Context context){
         this.context = context;
     }
 

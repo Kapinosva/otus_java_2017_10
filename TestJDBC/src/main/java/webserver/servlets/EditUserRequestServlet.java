@@ -3,6 +3,7 @@ package webserver.servlets;
 import accountService.AccountService;
 import accountService.account.UserAccount;
 import accountService.account.exception.EmptyLoginOrPasswordException;
+import accountService.account.exception.NoSuchUserException;
 import context.Context;
 import webserver.templater.PageGenerator;
 
@@ -28,24 +29,14 @@ public class EditUserRequestServlet extends HttpServlet {
                       HttpServletResponse response) throws ServletException, IOException {
         Map<String, Object> pageVariables = new HashMap<>();
 
-        UserAccount currentUser= (UserAccount)request.getSession().getAttribute("currentUser");
-        UserAccount editingUser = null;
-        AccountService ac = context.get(AccountService.class);
-        long editingUserId;
-        try {
-            editingUserId = Long.parseLong(request.getParameter("id"));
-        }catch (Exception e){
-            editingUserId = 0;
-        }
-        if (editingUserId > 0) {
-            editingUser = ac.getRegisteredUserById(editingUserId);
+        UserAccount currentUser = (UserAccount)request.getSession().getAttribute("currentUser");
+        UserAccount editingUser = getEditingUser(request, response);
+        if (editingUser == null){
+            editingUser = currentUser;
         }
 
         if (editingUser != null && currentUser != null && (currentUser.isAdmin() || currentUser.getId() == editingUser.getId())){
-            pageVariables.put("userLogin", "\""+editingUser.getLogin()+"\"");
-            pageVariables.put("userPassword", "\""+editingUser.getPassword()+"\"");
-            pageVariables.put("userName", "\""+editingUser.getName()+"\"");
-            pageVariables.put("userId", "\""+editingUser.getId()+"\"");
+            fillPageVariables(pageVariables, editingUser);
             response.getWriter().println(PageGenerator.instance().getPage("user.html", pageVariables));
         }else{
             response.setStatus(HttpServletResponse.SC_NOT_ACCEPTABLE);
@@ -66,25 +57,19 @@ public class EditUserRequestServlet extends HttpServlet {
         AccountService ac = context.get(AccountService.class);
         UserAccount editingUser = null;
         try {
-            editingUser = new UserAccount(login,password,name);
-        } catch (EmptyLoginOrPasswordException e) {
+            editingUser = getEditingUser(request, response);
+            editingUser.setLogin(login);
+            editingUser.setPassword(password);
+            editingUser.setName(name);
+            ac.updateUser(editingUser);
+        } catch (NoSuchUserException e) {
             e.printStackTrace();
         }
-        long editingUserId;
-        try {
-            editingUserId = Long.parseLong(request.getParameter("id"));
-        }catch (Exception e){
-            editingUserId = 0;
-        }
-        if (editingUserId > 0) {
-            ac.updateUser(editingUserId, editingUser);
-        }
-
         if (editingUser != null && currentUser != null && (currentUser.isAdmin() || currentUser.getId() == editingUser.getId())){
-            pageVariables.put("userLogin", "\""+editingUser.getLogin()+"\"");
-            pageVariables.put("userPassword", "\""+editingUser.getPassword()+"\"");
-            pageVariables.put("userName", "\""+editingUser.getName()+"\"");
-            pageVariables.put("userId", "\""+editingUser.getId()+"\"");
+            fillPageVariables(pageVariables, editingUser);
+            if (currentUser.getId() == editingUser.getId()){
+                request.getSession().setAttribute("currentUser", editingUser);
+            }
             response.getWriter().println(PageGenerator.instance().getPage("user.html", pageVariables));
         }else{
             response.setStatus(HttpServletResponse.SC_NOT_ACCEPTABLE);
@@ -93,17 +78,32 @@ public class EditUserRequestServlet extends HttpServlet {
         response.setContentType("text/html;charset=utf-8");
     }
 
-    /*private static Map<String, Object> createPageVariablesMap(HttpServletRequest request) {
-       /* HashMap<String, Object> pageVariables = new HashMap<>();
-        if (request.getParameterMap().isEmpty()){
-            pageVariables.put("value", "");
-        }else {
-            for (Map.Entry<String, String[]> entry : request.getParameterMap().entrySet()) {
-                pageVariables.put("value", entry.getValue()[0]);
-                break;
+    private void fillPageVariables(Map<String, Object> pageVariables, UserAccount editingUser){
+        pageVariables.put("userLogin", "\""+editingUser.getLogin()+"\"");
+        pageVariables.put("userPassword", "\""+editingUser.getPassword()+"\"");
+        pageVariables.put("userName", "\""+editingUser.getName()+"\"");
+        pageVariables.put("userId", "\""+editingUser.getId()+"\"");
+    }
+
+    private UserAccount getEditingUser(HttpServletRequest request,
+                                       HttpServletResponse response) throws IOException {
+        AccountService ac = context.get(AccountService.class);
+        UserAccount result = null;
+        long editingUserId;
+        try {
+            editingUserId = Long.parseLong(request.getParameter("id"));
+        }catch (Exception e){
+            editingUserId = 0;
+        }
+        if (editingUserId > 0) {
+            try {
+                result = ac.getRegisteredUserById(editingUserId);
+            } catch (NoSuchUserException e) {
+                e.printStackTrace();
             }
         }
-        return pageVariables;
-    }*/
+        return result;
+
+    }
 
 }

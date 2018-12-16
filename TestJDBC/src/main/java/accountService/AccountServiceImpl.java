@@ -30,18 +30,9 @@ public class AccountServiceImpl implements AccountService{
     @Override
     public void registerUser(String login, String password) throws DuplicateUserException, EmptyLoginOrPasswordException {
         if (registeredUsers.containsKey(login)){
-            throw new DuplicateUserException();
+            throw new DuplicateUserException(login);
         }else {
             registeredUsers.put(login,new UserAccount(login,password, "",registeredUsers.size()+1));
-        }
-    }
-
-    @Override
-    public void loginUser(String login, String password, HttpSession session) throws NoSuchUserException {
-        if ((!registeredUsers.containsKey(login)) || (!registeredUsers.get(login).getPassword().equals(password))){
-            throw new NoSuchUserException();
-        }else{
-            session.setAttribute("currentUser", registeredUsers.get(login));
         }
     }
 
@@ -51,20 +42,39 @@ public class AccountServiceImpl implements AccountService{
     }
 
     @Override
-    public UserAccount getRegisteredUserById(long id) {
+    public UserAccount getRegisteredUserById(long id) throws NoSuchUserException {
         for(UserAccount user: registeredUsers.values()){
             if (user.getId() == id){
                 return user;
             }
         }
-        return null;
+        throw new NoSuchUserException();
     }
 
     @Override
-    public void updateUser(long id, UserAccount newUserInfo) {
+    public UserAccount getRegisteredUserByLogin(String login) throws NoSuchUserException {
+        if (registeredUsers.containsKey(login)){
+            return registeredUsers.get(login);
+        }else {
+            throw new NoSuchUserException();
+        }
+    }
+
+    @Override
+    public void updateUser(long id, UserAccount newUserInfo) throws NoSuchUserException {
         UserAccount editingUser = getRegisteredUserById(id);
         editingUser.setLogin(newUserInfo.getLogin());
         editingUser.setName(newUserInfo.getName());
         editingUser.setPassword(newUserInfo.getPassword());
+    }
+
+    @Override
+    public boolean isRegisteredUserLogin(String login) {
+        return registeredUsers.containsKey(login);
+    }
+
+    @Override
+    public boolean isRightLoginPasswordPair(String login, String password) throws NoSuchUserException {
+        return getRegisteredUserByLogin(login).getPassword().equals(password);
     }
 }

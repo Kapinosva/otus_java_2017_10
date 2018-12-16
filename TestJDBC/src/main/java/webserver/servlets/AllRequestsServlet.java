@@ -1,6 +1,7 @@
 package webserver.servlets;
 
 import accountService.AccountService;
+import accountService.LoginService;
 import accountService.account.exception.NoSuchUserException;
 import context.Context;
 import webserver.templater.PageGenerator;
@@ -25,14 +26,6 @@ public class AllRequestsServlet extends HttpServlet {
                       HttpServletResponse response) throws ServletException, IOException {
 
         response.getWriter().println(PageGenerator.instance().getPage("index.html", null));
-        AccountService ac = context.get(AccountService.class);
-        //////////////Для тестов
-        try {
-            ac.loginUser("admin", "a", request.getSession());
-        } catch (NoSuchUserException e) {
-            e.printStackTrace();
-        }
-        //////////////
 
         response.setContentType("text/html;charset=utf-8");
         response.setStatus(HttpServletResponse.SC_OK);

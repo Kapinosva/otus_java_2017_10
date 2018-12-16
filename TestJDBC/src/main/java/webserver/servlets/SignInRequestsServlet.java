@@ -1,6 +1,7 @@
 package webserver.servlets;
 
 import accountService.AccountService;
+import accountService.LoginService;
 import accountService.account.exception.NoSuchUserException;
 import context.Context;
 import webserver.templater.PageGenerator;
@@ -13,11 +14,11 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SignInlRequestsServlet extends HttpServlet {
+public class SignInRequestsServlet extends HttpServlet {
 
     private Context context;
 
-    public SignInlRequestsServlet(Context context){
+    public SignInRequestsServlet(Context context){
         this.context = context;
     }
 
@@ -39,10 +40,10 @@ public class SignInlRequestsServlet extends HttpServlet {
 
         response.setContentType("text/html;charset=utf-8");
 
-        AccountService ac = context.get(AccountService.class);
+        LoginService loginService = context.get(LoginService.class);
 
         try {
-            ac.loginUser(login,password, request.getSession());
+            loginService.loginUser(login,password, request.getSession());
             response.setStatus(HttpServletResponse.SC_OK);
             pageVariables.put("value", "Login as! " + login);
         } catch (NoSuchUserException e) {

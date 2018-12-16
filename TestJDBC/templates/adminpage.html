@@ -7,12 +7,16 @@
 <body>
 Admin page, only admin can see it<br>
 There are all registered users in table below<br>
+
 <table>
-  <tr>
-    <td>id</td><td>login</td><td>name</td>
+<td>Id</td><td>Login</td><td>Name</td>
+  <#list usertable as user>
+    <tr>
+<td><a href="/getuser?id=${user.id}">${user.id}</a></td><td>${user.login}</td><td>${user.name}</td>
   </tr>
-  ${usertable}
+</#list>
 </table>
+
 
 
 <input type="button" onclick="history.back();" value="Back"/>

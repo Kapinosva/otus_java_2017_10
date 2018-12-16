@@ -36,8 +36,8 @@ public class MyWebServerImpl implements MyWebServer {
     private void  addServlets(ServletContextHandler context){
         context.addServlet(new ServletHolder(new AdminPageRequestServlet(cntxt)), "/adm");
         context.addServlet(new ServletHolder(new EditUserRequestServlet(cntxt)), "/getuser");
-        context.addServlet(new ServletHolder(new SignUplRequestsServlet(cntxt)), "/signup");
-        context.addServlet(new ServletHolder(new SignInlRequestsServlet(cntxt)), "/signin");
+        context.addServlet(new ServletHolder(new SignUpRequestsServlet(cntxt)), "/signup");
+        context.addServlet(new ServletHolder(new SignInRequestsServlet(cntxt)), "/signin");
         context.addServlet(new ServletHolder(new AllRequestsServlet(cntxt)), "/*");
     }
 }

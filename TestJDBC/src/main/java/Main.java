@@ -1,6 +1,5 @@
-import accountService.AccountService;
-import accountService.AccountServiceImpl;
-import accountService.DBAccountServiceImpl;
+import accountService.*;
+import accountService.account.exception.NoSuchUserException;
 import context.Context;
 import dataSet.Address;
 import dataSet.Phone;
@@ -20,6 +19,7 @@ public class Main {
         context.add(DBService.class, new DBServiceHibernate());
         //context.add(AccountService.class, new AccountServiceImpl());
         context.add(AccountService.class, new DBAccountServiceImpl(context));
+        context.add(LoginService.class, new LoginServiceImpl(context.get(AccountService.class)));
         MyWebServer server = context.get(MyWebServer.class);
         server.start();
     }
