@@ -1,10 +1,7 @@
 package webserver;
 
 import context.Context;
-import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.servlet.ServletContextHandler;
-import org.eclipse.jetty.servlet.ServletHolder;
-import webserver.servlets.*;
+
 
 
 public class MyWebServerImpl implements MyWebServer {
@@ -16,7 +13,7 @@ public class MyWebServerImpl implements MyWebServer {
     }
 
     public void start(){
-
+/*
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
         context.setContextPath("/");
 
@@ -30,14 +27,14 @@ public class MyWebServerImpl implements MyWebServer {
         } catch (Exception e) {
             System.out.println("Server aborted");
             e.printStackTrace();
-        }
+        }*/
     }
 
-    private void  addServlets(ServletContextHandler context){
-        context.addServlet(new ServletHolder(new AdminPageRequestServlet(cntxt)), "/adm");
+   /*  private void  addServlets(ServletContextHandler context){
+       context.addServlet(new ServletHolder(new AdminPageRequestServlet(cntxt)), "/adm");
         context.addServlet(new ServletHolder(new EditUserRequestServlet(cntxt)), "/getuser");
         context.addServlet(new ServletHolder(new SignUpRequestsServlet(cntxt)), "/signup");
         context.addServlet(new ServletHolder(new SignInRequestsServlet(cntxt)), "/signin");
         context.addServlet(new ServletHolder(new AllRequestsServlet(cntxt)), "/*");
-    }
+    }*/
 }

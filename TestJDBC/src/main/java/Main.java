@@ -17,7 +17,7 @@ public class Main {
         Context context = new Context();
         context.add(MyWebServer.class, new MyWebServerImpl(context));
         context.add(DBService.class, new DBServiceHibernate());
-        //context.add(AccountService.class, new AccountServiceImpl());
+        context.add(AccountService.class, new AccountServiceImpl());
         context.add(AccountService.class, new DBAccountServiceImpl(context));
         context.add(LoginService.class, new LoginServiceImpl(context.get(AccountService.class)));
         MyWebServer server = context.get(MyWebServer.class);

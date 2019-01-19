@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<web-app>
+
+    <display-name>HW14KapinosVA</display-name>
+    <description>My WAR is My WAR</description>
+
+    <servlet>
+        <servlet-name>signInRequestsServlet</servlet-name>
+        <servlet-class>webserver.servlets.SignInRequestsServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>signUpRequestsServlet</servlet-name>
+        <servlet-class>webserver.servlets.SignUpRequestsServlet</servlet-class>
+    </servlet>
+
+
+    <servlet-mapping>
+        <servlet-name>signInRequestsServlet</servlet-name>
+        <url-pattern>/signIn</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>signUpRequestsServlet</servlet-name>
+        <url-pattern>/signUP</url-pattern>
+    </servlet-mapping>
+
+    <welcome-file-list>
+        <welcome-file>index.html</welcome-file>
+    </welcome-file-list>
+
+</web-app>
