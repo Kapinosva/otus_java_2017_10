@@ -4,20 +4,21 @@ import accountService.account.UserAccount;
 import accountService.account.exception.DuplicateUserException;
 import accountService.account.exception.EmptyLoginOrPasswordException;
 import accountService.account.exception.NoSuchUserException;
-import context.Context;
-import dataSet.User;
 import dbService.DBService;
+import dbService.DBServiceHibernate;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import javax.servlet.http.HttpSession;
 import java.util.Collection;
 
 public class DBAccountServiceImpl implements AccountService{
-    private Context context;
     private DBService dbService;
 
-    public DBAccountServiceImpl(Context context) {
-        this.context = context;
-        dbService =  context.get(DBService.class);
+    public DBAccountServiceImpl() {
+        ApplicationContext context =
+                new ClassPathXmlApplicationContext(
+                        "SpringBeans.xml");
+        dbService =  context.getBean("dbService", DBServiceHibernate.class);
     }
 
     @Override

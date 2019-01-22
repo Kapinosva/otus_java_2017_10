@@ -1,4 +1,4 @@
-package webserver.templater;
+package webServer.templater;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -11,7 +11,7 @@ import java.io.Writer;
 import java.util.Map;
 
 public class PageGenerator {
-    private static final String HTML_DIR = "templates";
+    private static final String HTML_DIR = "/tml/";
 
     private static PageGenerator pageGenerator;
     private final Configuration cfg;
@@ -25,7 +25,7 @@ public class PageGenerator {
     public String getPage(String filename, Map<String, Object> data) {
         Writer stream = new StringWriter();
         try {
-            Template template = cfg.getTemplate(HTML_DIR + File.separator + filename);
+            Template template = cfg.getTemplate(filename);
             template.process(data, stream);
         } catch (IOException | TemplateException e) {
             e.printStackTrace();
@@ -35,6 +35,7 @@ public class PageGenerator {
 
     private PageGenerator() {
         cfg = new Configuration();
-    }
+        cfg.setClassForTemplateLoading(this.getClass(), HTML_DIR);
+        cfg.setDefaultEncoding("UTF-8");    }
 }
 

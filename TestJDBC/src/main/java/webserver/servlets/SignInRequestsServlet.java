@@ -1,10 +1,11 @@
-package webserver.servlets;
+package webServer.servlets;
 
-import accountService.AccountService;
 import accountService.LoginService;
 import accountService.account.exception.NoSuchUserException;
-import context.Context;
-import webserver.templater.PageGenerator;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import webServer.templater.PageGenerator;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -16,23 +17,14 @@ import java.util.Map;
 
 public class SignInRequestsServlet extends HttpServlet {
 
-    private Context context;
-
-    public SignInRequestsServlet(Context context){
-        this.context = context;
-    }
-
-
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
-
-        AllRequestsServlet defaultGet = new AllRequestsServlet(context);
+        AllRequestsServlet defaultGet = new AllRequestsServlet();
         defaultGet.doGet(request, response);
     }
 
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {
-//        Map<String, Object> pageVariables = createPageVariablesMap(request);
         Map<String, Object> pageVariables = new HashMap<>();
 
         String login = request.getParameter("login");
@@ -40,8 +32,10 @@ public class SignInRequestsServlet extends HttpServlet {
 
         response.setContentType("text/html;charset=utf-8");
 
-        LoginService loginService = context.get(LoginService.class);
-
+        ApplicationContext context =
+                new ClassPathXmlApplicationContext(
+                        "SpringBeans.xml");
+        LoginService loginService = context.getBean("loginService", LoginService.class);
         try {
             loginService.loginUser(login,password, request.getSession());
             response.setStatus(HttpServletResponse.SC_OK);
@@ -53,7 +47,7 @@ public class SignInRequestsServlet extends HttpServlet {
         }
 
 
-        response.getWriter().println(PageGenerator.instance().getPage("signin.html", pageVariables));
+        response.getWriter().write(PageGenerator.instance().getPage("signin.html", pageVariables));
     }
 
 

@@ -1,11 +1,12 @@
-package webserver.servlets;
+package webServer.servlets;
 
 import accountService.AccountService;
 import accountService.account.UserAccount;
-import accountService.account.exception.EmptyLoginOrPasswordException;
 import accountService.account.exception.NoSuchUserException;
-import context.Context;
-import webserver.templater.PageGenerator;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import webServer.templater.PageGenerator;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -19,12 +20,6 @@ import java.util.Map;
 public class EditUserRequestServlet extends HttpServlet {
 
 
-    private Context context;
-
-    public EditUserRequestServlet(Context context){
-        this.context = context;
-    }
-
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
         Map<String, Object> pageVariables = new HashMap<>();
@@ -37,10 +32,10 @@ public class EditUserRequestServlet extends HttpServlet {
 
         if (editingUser != null && currentUser != null && (currentUser.isAdmin() || currentUser.getId() == editingUser.getId())){
             fillPageVariables(pageVariables, editingUser);
-            response.getWriter().println(PageGenerator.instance().getPage("user.html", pageVariables));
+            response.getWriter().write(PageGenerator.instance().getPage("user.html", pageVariables));
         }else{
             response.setStatus(HttpServletResponse.SC_NOT_ACCEPTABLE);
-            response.getWriter().println(PageGenerator.instance().getPage("index.html", null));
+            response.getWriter().write(PageGenerator.instance().getPage("index.html", null));
         }
         response.setContentType("text/html;charset=utf-8");
     }
@@ -54,7 +49,11 @@ public class EditUserRequestServlet extends HttpServlet {
         String password = request.getParameter("password");
         String name = request.getParameter("name");
 
-        AccountService ac = context.get(AccountService.class);
+        ApplicationContext context =
+                new ClassPathXmlApplicationContext(
+                        "SpringBeans.xml");
+        AccountService ac = context.getBean("accountService", AccountService.class);
+
         UserAccount editingUser = null;
         try {
             editingUser = getEditingUser(request, response);
@@ -70,10 +69,10 @@ public class EditUserRequestServlet extends HttpServlet {
             if (currentUser.getId() == editingUser.getId()){
                 request.getSession().setAttribute("currentUser", editingUser);
             }
-            response.getWriter().println(PageGenerator.instance().getPage("user.html", pageVariables));
+            response.getWriter().write(PageGenerator.instance().getPage("user.html", pageVariables));
         }else{
             response.setStatus(HttpServletResponse.SC_NOT_ACCEPTABLE);
-            response.getWriter().println(PageGenerator.instance().getPage("index.html", null));
+            response.getWriter().write(PageGenerator.instance().getPage("index.html", null));
         }
         response.setContentType("text/html;charset=utf-8");
     }
@@ -87,7 +86,11 @@ public class EditUserRequestServlet extends HttpServlet {
 
     private UserAccount getEditingUser(HttpServletRequest request,
                                        HttpServletResponse response) throws IOException {
-        AccountService ac = context.get(AccountService.class);
+        ApplicationContext context =
+                new ClassPathXmlApplicationContext(
+                        "SpringBeans.xml");
+        AccountService ac = context.getBean("accountService", AccountService.class);
+
         UserAccount result = null;
         long editingUserId;
         try {

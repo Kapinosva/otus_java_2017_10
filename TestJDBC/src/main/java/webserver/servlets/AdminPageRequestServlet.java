@@ -1,9 +1,10 @@
-package webserver.servlets;
+package webServer.servlets;
 
 import accountService.AccountService;
 import accountService.account.UserAccount;
-import context.Context;
-import webserver.templater.PageGenerator;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import webServer.templater.PageGenerator;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -16,17 +17,13 @@ import java.util.Map;
 
 public class AdminPageRequestServlet extends HttpServlet {
 
-
-    private Context context;
-
-    public AdminPageRequestServlet(Context context){
-        this.context = context;
-    }
-
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
         Map<String, Object> pageVariables = new HashMap<>();
-        AccountService ac = context.get(AccountService.class);
+        ApplicationContext context =
+                new ClassPathXmlApplicationContext(
+                        "SpringBeans.xml");
+        AccountService ac = context.getBean("accountService", AccountService.class);
 
         UserAccount currentUser = (UserAccount)request.getSession().getAttribute("currentUser");
         if (currentUser != null && currentUser.isAdmin()){

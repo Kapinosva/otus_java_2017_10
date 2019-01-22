@@ -1,10 +1,9 @@
-package webserver.servlets;
+package webServer.servlets;
 
 import accountService.AccountService;
-import accountService.account.exception.DuplicateUserException;
-import accountService.account.exception.EmptyLoginOrPasswordException;
-import context.Context;
-import webserver.templater.PageGenerator;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import webServer.templater.PageGenerator;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -16,15 +15,15 @@ import java.util.Map;
 
 public class SignUpRequestsServlet extends HttpServlet {
 
-    private Context context;
+/*    private Context context;
 
     public SignUpRequestsServlet(Context context){
         this.context = context;
     }
-
+*/
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
-        response.getWriter().println(PageGenerator.instance().getPage("signupGet.html", null));
+        response.getWriter().write(PageGenerator.instance().getPage("signupGet.html", null));
         response.setContentType("text/html;charset=utf-8");
         response.setStatus(HttpServletResponse.SC_OK);
     }
@@ -38,17 +37,20 @@ public class SignUpRequestsServlet extends HttpServlet {
         String password = request.getParameter("password");
 
         response.setContentType("text/html;charset=utf-8");
-        AccountService ac = context.get(AccountService.class);
+        ApplicationContext context =
+                new ClassPathXmlApplicationContext(
+                        "SpringBeans.xml");
+        AccountService ac = context.getBean("accountService", AccountService.class);
         try {
-            ac.registerUser(login, password);
+          //  ac.registerUser(login, password);
             response.setStatus(HttpServletResponse.SC_OK);
             pageVariables.put("value", "Registered user: " + login);
-        } catch (DuplicateUserException | EmptyLoginOrPasswordException e) {
+        } catch (Exception e){ //(DuplicateUserException | EmptyLoginOrPasswordException e) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             pageVariables.put("value", "Unregistered user " + e.getMessage());
             e.printStackTrace();
         }
-        response.getWriter().println(PageGenerator.instance().getPage("signuppost.html", pageVariables));
+        response.getWriter().write(PageGenerator.instance().getPage("signupPost.html", pageVariables));
     }
 
 

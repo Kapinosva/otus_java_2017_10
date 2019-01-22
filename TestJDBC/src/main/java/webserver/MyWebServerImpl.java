@@ -1,16 +1,6 @@
-package webserver;
-
-import context.Context;
-
-
+package webServer;
 
 public class MyWebServerImpl implements MyWebServer {
-
-    private Context cntxt;
-
-    public MyWebServerImpl(Context cntxt){
-        this.cntxt = cntxt;
-    }
 
     public void start(){
 /*
