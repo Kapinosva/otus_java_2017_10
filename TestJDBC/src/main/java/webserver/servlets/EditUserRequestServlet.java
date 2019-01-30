@@ -4,10 +4,12 @@ import accountService.AccountService;
 import accountService.account.UserAccount;
 import accountService.account.exception.NoSuchUserException;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 import webServer.templater.PageGenerator;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -16,9 +18,16 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-
+@Configurable
 public class EditUserRequestServlet extends HttpServlet {
+    @Autowired
+    private AccountService ac;
 
+    @Override
+    public void init(ServletConfig config) throws ServletException{
+        super.init(config);
+        SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
+    }
 
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
@@ -48,11 +57,6 @@ public class EditUserRequestServlet extends HttpServlet {
         String login = request.getParameter("login");
         String password = request.getParameter("password");
         String name = request.getParameter("name");
-
-        ApplicationContext context =
-                new ClassPathXmlApplicationContext(
-                        "SpringBeans.xml");
-        AccountService ac = context.getBean("accountService", AccountService.class);
 
         UserAccount editingUser = null;
         try {
@@ -86,11 +90,6 @@ public class EditUserRequestServlet extends HttpServlet {
 
     private UserAccount getEditingUser(HttpServletRequest request,
                                        HttpServletResponse response) throws IOException {
-        ApplicationContext context =
-                new ClassPathXmlApplicationContext(
-                        "SpringBeans.xml");
-        AccountService ac = context.getBean("accountService", AccountService.class);
-
         UserAccount result = null;
         long editingUserId;
         try {

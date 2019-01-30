@@ -6,8 +6,9 @@
     <bean id="dbService" class="dbService.DBServiceHibernate">
     </bean>
     <bean id="accountService" class="accountService.DBAccountServiceImpl">
+        <constructor-arg name="dbService" ref="dbService"/>
     </bean>
-    <bean id="loginService" class="dbService.LoginServiceImpl">
-        <constructor-arg name="ac" ref="DBAccountServiceImpl" />
+    <bean id="loginService" class="accountService.LoginServiceImpl">
+        <constructor-arg name="ac" ref="accountService"/>
     </bean>
 </beans>

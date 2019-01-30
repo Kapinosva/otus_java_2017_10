@@ -3,10 +3,12 @@ package webServer.servlets;
 import accountService.LoginService;
 import accountService.account.exception.NoSuchUserException;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 import webServer.templater.PageGenerator;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -15,12 +17,21 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+@Configurable
 public class SignInRequestsServlet extends HttpServlet {
+    @Autowired
+    private LoginService loginService;
 
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
         AllRequestsServlet defaultGet = new AllRequestsServlet();
         defaultGet.doGet(request, response);
+    }
+
+    @Override
+    public void init(ServletConfig config) throws ServletException{
+        super.init(config);
+        SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
     }
 
     public void doPost(HttpServletRequest request,
@@ -31,11 +42,6 @@ public class SignInRequestsServlet extends HttpServlet {
         String password = request.getParameter("password");
 
         response.setContentType("text/html;charset=utf-8");
-
-        ApplicationContext context =
-                new ClassPathXmlApplicationContext(
-                        "SpringBeans.xml");
-        LoginService loginService = context.getBean("loginService", LoginService.class);
         try {
             loginService.loginUser(login,password, request.getSession());
             response.setStatus(HttpServletResponse.SC_OK);

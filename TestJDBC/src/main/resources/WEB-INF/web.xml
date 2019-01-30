@@ -4,6 +4,13 @@
 
     <display-name>HW14KapinosVA</display-name>
     <description>My WAR is not your WAR</description>
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:SpringBeans.xml</param-value>
+    </context-param>
 
     <servlet>
         <servlet-name>signInRequestsServlet</servlet-name>
@@ -18,14 +25,15 @@
         <servlet-class>webServer.servlets.EditUserRequestServlet</servlet-class>
     </servlet>
 
-    <servlet-mapping>
-        <servlet-name>editUserRequestServlet</servlet-name>
-        <url-pattern>/getuser</url-pattern>
-    </servlet-mapping>
     <servlet>
         <servlet-name>adminPageRequestServlet</servlet-name>
         <servlet-class>webServer.servlets.AdminPageRequestServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>allRequestsServlet</servlet-name>
+        <servlet-class>webServer.servlets.AllRequestsServlet</servlet-class>
+    </servlet>
+
 
     <servlet-mapping>
         <servlet-name>adminPageRequestServlet</servlet-name>
@@ -40,8 +48,15 @@
         <url-pattern>/signup</url-pattern>
     </servlet-mapping>
 
-    <welcome-file-list>
-        <welcome-file>index.html</welcome-file>
-    </welcome-file-list>
+    <servlet-mapping>
+        <servlet-name>editUserRequestServlet</servlet-name>
+        <url-pattern>/getuser</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>allRequestsServlet</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+
 
 </web-app>

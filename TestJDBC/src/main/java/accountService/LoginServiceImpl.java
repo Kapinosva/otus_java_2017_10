@@ -1,7 +1,6 @@
 package accountService;
 
 import accountService.account.exception.NoSuchUserException;
-import dbService.DBService;
 
 import javax.servlet.http.HttpSession;
 
