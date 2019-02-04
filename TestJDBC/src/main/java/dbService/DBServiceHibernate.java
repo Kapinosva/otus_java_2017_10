@@ -1,11 +1,13 @@
 package dbService;
 
 import accountService.account.UserAccount;
+import cache.CacheEngine;
+import cache.CacheEngineImpl;
+import cache.MyElement;
 import dataSet.Address;
 import dataSet.DataSet;
 import dataSet.Phone;
 import dataSet.User;
-import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -26,10 +28,12 @@ public class DBServiceHibernate implements DBService {
     private static final String hibernate_enable_lazy_load_no_trans = "true";
 
     private final SessionFactory sessionFactory;
+    private final CacheEngine cacheEngine;
 
-    public DBServiceHibernate(){
+    public DBServiceHibernate(CacheEngine cacheEngine){
         Configuration configuration = getH2HibernateConfiguration();
         sessionFactory = createSessionFactory(configuration);
+        this.cacheEngine = cacheEngine;
     }
 
     @Override
@@ -38,14 +42,18 @@ public class DBServiceHibernate implements DBService {
             Transaction transaction = session.beginTransaction();
             session.saveOrUpdate(dataSet);
             transaction.commit();
+            cacheEngine.put(new MyElement(dataSet.getId(), dataSet));
         }
     }
 
     @Override
     public <T extends DataSet> T load(long id, Class<T> dataSetClass) {
-        try (Session session = sessionFactory.openSession()){
-            return  session.get(dataSetClass, id);
+        if (cacheEngine.get(id) == null){
+            try (Session session = sessionFactory.openSession()) {
+                cacheEngine.put(new MyElement(id, session.get(dataSetClass, id)));
+            }
         }
+        return (T) cacheEngine.get(id).getValue();
     }
 
     @Override
@@ -56,7 +64,15 @@ public class DBServiceHibernate implements DBService {
             Root<UserAccount> from = criteria.from(UserAccount.class);
             criteria.where(criteriaBuilder.equal(from.get("login"),login));
             Query<UserAccount> query = session.createQuery(criteria);
-            return query.uniqueResult();
+            UserAccount result = query.uniqueResult();
+            if (result != null) {
+                if (cacheEngine.get(result.getId()) == null) {
+                    cacheEngine.put(new MyElement(result.getId(), result));
+                }
+            }else {
+                return null;
+            }
+            return  (UserAccount) cacheEngine.get(result.getId()).getValue();
         }
     }
 
@@ -103,5 +119,6 @@ public class DBServiceHibernate implements DBService {
         if (!sessionFactory.isClosed()){
             sessionFactory.close();;
         }
+        cacheEngine.dispose();
     }
 }
