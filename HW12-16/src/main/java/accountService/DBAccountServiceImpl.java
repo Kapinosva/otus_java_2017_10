@@ -4,15 +4,21 @@ import accountService.account.UserAccount;
 import accountService.account.exception.DuplicateUserException;
 import accountService.account.exception.EmptyLoginOrPasswordException;
 import accountService.account.exception.NoSuchUserException;
+import app.MessageSystemContext;
 import dbService.DBService;
+import messageSystem.MessageSystem;
 
 import java.util.Collection;
-
 public class DBAccountServiceImpl implements AccountService{
     private DBService dbService;
+    private MessageSystemContext msContext;
 
     public DBAccountServiceImpl(DBService dbService) {
         this.dbService = dbService;
+    }
+
+    public void setMsContext(MessageSystemContext msContext){
+        this.msContext = msContext;
     }
 
     @Override
@@ -63,4 +69,16 @@ public class DBAccountServiceImpl implements AccountService{
     public boolean isRightLoginPasswordPair(String login, String password) throws NoSuchUserException {
         return getRegisteredUserByLogin(login).getPassword().equals(password);
     }
+
+    @Override
+    public String getId() {
+        return "AccountService";
+    }
+
+    @Override
+    public MessageSystem getMS() {
+        return msContext.getMessageSystem();
+    }
+
+
 }

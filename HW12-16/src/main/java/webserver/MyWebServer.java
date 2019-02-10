@@ -1,6 +1,6 @@
-package webServer;
+package webserver;
 
 
 public interface MyWebServer {
-    void start();
+    void start() throws Exception;
 }

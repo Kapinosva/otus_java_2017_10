@@ -5,12 +5,13 @@ import accountService.account.UserAccount;
 import accountService.account.exception.DuplicateUserException;
 import accountService.account.exception.EmptyLoginOrPasswordException;
 import accountService.account.exception.NoSuchUserException;
+import messageSystem.Addressee;
 
 import javax.servlet.http.HttpSession;
 import java.util.Collection;
 import java.util.List;
 
-public interface AccountService {
+public interface AccountService extends Addressee{
     void registerUser(String login, String password) throws DuplicateUserException, EmptyLoginOrPasswordException;
 
     Collection<UserAccount> getUserList();

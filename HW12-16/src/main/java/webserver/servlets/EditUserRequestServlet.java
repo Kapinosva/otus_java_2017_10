@@ -1,4 +1,4 @@
-package webServer.servlets;
+package webserver.servlets;
 
 import accountService.AccountService;
 import accountService.account.UserAccount;
@@ -7,7 +7,7 @@ import accountService.account.exception.NoSuchUserException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
-import webServer.templater.PageGenerator;
+import webserver.templater.PageGenerator;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -32,7 +32,6 @@ public class EditUserRequestServlet extends HttpServlet {
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
         Map<String, Object> pageVariables = new HashMap<>();
-
         UserAccount currentUser = (UserAccount)request.getSession().getAttribute("currentUser");
         UserAccount editingUser = getEditingUser(request, response);
         if (editingUser == null){
@@ -44,7 +43,7 @@ public class EditUserRequestServlet extends HttpServlet {
             response.getWriter().write(PageGenerator.instance().getPage("user.html", pageVariables));
         }else{
             response.setStatus(HttpServletResponse.SC_NOT_ACCEPTABLE);
-            response.getWriter().write(PageGenerator.instance().getPage("index.html", null));
+            response.getWriter().write(PageGenerator.instance().getPage("default.html", null));
         }
         response.setContentType("text/html;charset=utf-8");
     }
@@ -76,7 +75,7 @@ public class EditUserRequestServlet extends HttpServlet {
             response.getWriter().write(PageGenerator.instance().getPage("user.html", pageVariables));
         }else{
             response.setStatus(HttpServletResponse.SC_NOT_ACCEPTABLE);
-            response.getWriter().write(PageGenerator.instance().getPage("index.html", null));
+            response.getWriter().write(PageGenerator.instance().getPage("default.html", null));
         }
         response.setContentType("text/html;charset=utf-8");
     }

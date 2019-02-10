@@ -9,6 +9,18 @@
         <constructor-arg name="idleTimeMs" value="0"/>
         <constructor-arg name="isEternal" value="true"/>
     </bean>
+    <bean id="messageSystemContext" class="app.MessageSystemContext">
+        <constructor-arg name="messageSystem" ref="messageSystem"/>
+        <property name="asAddressee">
+            <ref bean="accountService"></ref>
+        </property>
+        <property name="lsAddressee">
+            <ref bean="loginService"></ref>
+        </property>
+    </bean>
+    <bean id="messageSystem" class="messageSystem.MessageSystem">
+    </bean>
+
     <bean id="dbService" class="dbService.DBServiceHibernate">
         <constructor-arg name="cacheEngine" ref="cacheEngine"/>
     </bean>

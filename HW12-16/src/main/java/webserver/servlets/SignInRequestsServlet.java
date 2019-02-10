@@ -1,4 +1,4 @@
-package webServer.servlets;
+package webserver.servlets;
 
 import accountService.LoginService;
 import accountService.account.exception.NoSuchUserException;
@@ -6,7 +6,7 @@ import accountService.account.exception.NoSuchUserException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
-import webServer.templater.PageGenerator;
+import webserver.templater.PageGenerator;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;

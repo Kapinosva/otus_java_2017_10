@@ -1,4 +1,4 @@
-package webServer.templater;
+package webserver.templater;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;

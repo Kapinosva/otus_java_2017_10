@@ -1,11 +1,11 @@
-package webServer.servlets;
+package webserver.servlets;
 
 import accountService.AccountService;
 import accountService.account.UserAccount;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
-import webServer.templater.PageGenerator;
+import webserver.templater.PageGenerator;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -39,7 +39,7 @@ public class AdminPageRequestServlet extends HttpServlet {
             response.getWriter().println(PageGenerator.instance().getPage("adminpage.html", pageVariables));
         }else{
             response.setStatus(HttpServletResponse.SC_NOT_ACCEPTABLE);
-            response.getWriter().println(PageGenerator.instance().getPage("index.html", null));
+            response.getWriter().println(PageGenerator.instance().getPage("default.html", null));
         }
         response.setContentType("text/html;charset=utf-8");
     }
@@ -51,7 +51,7 @@ public class AdminPageRequestServlet extends HttpServlet {
         if (currentUser != null && currentUser.isAdmin()){
             response.getWriter().println(PageGenerator.instance().getPage("adminpage.html", null));
         }else{
-            response.getWriter().println(PageGenerator.instance().getPage("index.html", null));
+            response.getWriter().println(PageGenerator.instance().getPage("default.html", null));
         }
     }
 

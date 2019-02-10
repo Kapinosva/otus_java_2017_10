@@ -1,12 +1,15 @@
 package accountService;
 
 import accountService.account.exception.NoSuchUserException;
+import app.MessageSystemContext;
+import messageSystem.MessageSystem;
 
 import javax.servlet.http.HttpSession;
 
 public class LoginServiceImpl implements LoginService {
 
-    AccountService ac;
+    private AccountService ac;
+    private MessageSystemContext msContext;
 
     public LoginServiceImpl(AccountService ac){
         this.ac = ac;
@@ -18,5 +21,21 @@ public class LoginServiceImpl implements LoginService {
             session.setAttribute("currentUser", ac.getRegisteredUserByLogin(login));
         }
     }
+
+    @Override
+    public String getId() {
+        return "LoginService";
+    }
+
+    @Override
+    public MessageSystem getMS() {
+        return msContext.getMessageSystem();
+    }
+
+    @Override
+    public void setMsContext(MessageSystemContext msContext) {
+        this.msContext = msContext;
+    }
+
 
 }

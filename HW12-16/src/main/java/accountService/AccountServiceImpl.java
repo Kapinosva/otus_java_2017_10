@@ -5,15 +5,15 @@ import accountService.account.UserAccount;
 import accountService.account.exception.DuplicateUserException;
 import accountService.account.exception.EmptyLoginOrPasswordException;
 import accountService.account.exception.NoSuchUserException;
+import app.MessageSystemContext;
+import messageSystem.MessageSystem;
 
-import javax.servlet.http.HttpSession;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
+
 import java.util.Map;
-
 public class AccountServiceImpl implements AccountService{
-
+    private MessageSystemContext msContext;
     private Map<String, UserAccount> registeredUsers = new HashMap<>();
 
     public AccountServiceImpl(){
@@ -76,5 +76,20 @@ public class AccountServiceImpl implements AccountService{
     @Override
     public boolean isRightLoginPasswordPair(String login, String password) throws NoSuchUserException {
         return getRegisteredUserByLogin(login).getPassword().equals(password);
+    }
+
+    @Override
+    public String getId() {
+        return "AccountService";
+    }
+
+    @Override
+    public void setMsContext(MessageSystemContext msContext) {
+        this.msContext = msContext;
+    }
+
+    @Override
+    public MessageSystem getMS() {
+        return msContext.getMessageSystem();
     }
 }
