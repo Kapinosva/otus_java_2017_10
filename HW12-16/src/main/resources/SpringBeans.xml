@@ -17,8 +17,13 @@
         <property name="lsAddressee">
             <ref bean="loginService"></ref>
         </property>
+        <property name="FrontAddressee">
+            <ref bean="frontEndService"></ref>
+        </property>
     </bean>
     <bean id="messageSystem" class="messageSystem.MessageSystem">
+    </bean>
+    <bean id="frontEndService" class="frontEndService.FrontEndServiceImpl">
     </bean>
 
     <bean id="dbService" class="dbService.DBServiceHibernate">

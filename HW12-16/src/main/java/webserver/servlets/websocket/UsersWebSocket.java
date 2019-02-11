@@ -1,10 +1,9 @@
 package webserver.servlets.websocket;
 
-import app.FrontendService;
+import app.FrontEndService;
 import app.MessageSystemContext;
 import app.messages.MsgLoginUser;
 import app.messages.MsgRegisterUser;
-import com.google.gson.Gson;
 import messageSystem.MessageSystem;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
@@ -14,35 +13,42 @@ import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 
 @WebSocket
-public class RegisterUserWebSocket implements FrontendService {
+public class UsersWebSocket {
 
     private Session session;
     private MessageSystemContext msContext;
     private HttpSession httpSession;
 
-    public RegisterUserWebSocket(MessageSystemContext msContext, HttpSession httpSession) {
+    public UsersWebSocket(MessageSystemContext msContext, HttpSession httpSession) {
         this.msContext = msContext;
         this.httpSession = httpSession;
-        init();
+        System.out.println("Session onCreate\n" + httpSession);
     }
 
-    public void setMsContext(MessageSystemContext msContext){
-        this.msContext = msContext;
+    public void onLoginUser(String result){
+        try{
+            session.getRemote().sendString(result);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
-    public void init() {
-        msContext.setFrontAddressee(this);
+
+    public void onRegisteredUser(String result){
+        try{
+            session.getRemote().sendString(result);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @OnWebSocketMessage
     public void onMessage(String data) {
-        System.out.println(data);
         JSONParser parser = new JSONParser();
         JSONObject o = null;
         try {
@@ -50,24 +56,25 @@ public class RegisterUserWebSocket implements FrontendService {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        if (o.get("type").equals("add")){
+
+        if (o.get("type").equals("add")) {
             msContext.getMessageSystem().sendMessage(
                     new MsgRegisterUser(
-                            this
-                            , msContext.getAsAddressee()
-                            , o.get("login").toString()
-                            , o.get("password").toString()
-
+                            msContext.getFrontAddressee(),
+                            msContext.getAsAddressee(),
+                            o.get("login").toString(),
+                            o.get("password").toString()
                     )
             );
-        }else{
+        }else if (o.get("type").equals("login")) {
             msContext.getMessageSystem().sendMessage(
                     new MsgLoginUser(
-                            this
+                            msContext.getFrontAddressee()
                             , msContext.getLsAddressee()
                             , o.get("login").toString()
                             , o.get("password").toString()
                             , httpSession
+                            , this
                     )
             );
         }
@@ -76,6 +83,7 @@ public class RegisterUserWebSocket implements FrontendService {
     @OnWebSocketConnect
     public void onOpen(Session session) {
         setSession(session);
+        msContext.getFrontAddressee().subscribeOnRegisterUsers(this);
         System.out.println("onOpen");
     }
 
@@ -89,37 +97,9 @@ public class RegisterUserWebSocket implements FrontendService {
 
     @OnWebSocketClose
     public void onClose(int statusCode, String reason) {
+        msContext.getFrontAddressee().unSubscribeOnRegisterUsers(this);
         System.out.println("onClose");
     }
 
-    @Override
-    public String getId() {
-        return "FrontEnd";
-    }
 
-    @Override
-    public MessageSystem getMS() {
-        return msContext.getMessageSystem();
-    }
-
-
-    @Override
-    public void isRegisteredUser(String login, String result) {
-        System.out.println(result + login);
-        try {
-            session.getRemote().sendString(result + login);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void isLogindUser(String login, String result) {
-        System.out.println(result + login);
-        try {
-            session.getRemote().sendString(result + login);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 }

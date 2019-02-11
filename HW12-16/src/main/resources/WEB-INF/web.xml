@@ -52,7 +52,7 @@
     </servlet-mapping>
     <servlet>
         <servlet-name>wsusers</servlet-name>
-        <servlet-class>webserver.servlets.websocket.WebSocketRegisterUserServlet</servlet-class>
+        <servlet-class>webserver.servlets.websocket.WebSocketUsersServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>wsusers</servlet-name>

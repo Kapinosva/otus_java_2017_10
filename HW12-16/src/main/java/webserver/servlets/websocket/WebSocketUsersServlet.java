@@ -1,5 +1,4 @@
 package webserver.servlets.websocket;
-import accountService.AccountService;
 import app.MessageSystemContext;
 import org.eclipse.jetty.websocket.servlet.WebSocketServlet;
 import org.eclipse.jetty.websocket.servlet.WebSocketServletFactory;
@@ -12,7 +11,7 @@ import javax.servlet.ServletException;
 import java.util.concurrent.TimeUnit;
 
 @Configurable
-public class WebSocketRegisterUserServlet extends WebSocketServlet {
+public class WebSocketUsersServlet extends WebSocketServlet {
     private final static long LOGOUT_TIME = TimeUnit.MINUTES.toMillis(10);
     @Autowired
     private MessageSystemContext msContext;
@@ -28,6 +27,6 @@ public class WebSocketRegisterUserServlet extends WebSocketServlet {
 
         factory.getPolicy().setIdleTimeout(LOGOUT_TIME);
         SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
-        factory.setCreator(new RegisterUserWebSocketCreator(msContext));
+        factory.setCreator(new UsersWebSocketCreator(msContext));
     }
 }

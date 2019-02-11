@@ -1,6 +1,6 @@
 package app.messages;
 
-import app.FrontendService;
+import app.FrontEndService;
 import app.MsgToFrontend;
 import messageSystem.Addressee;
 
@@ -15,7 +15,7 @@ public class MsgRegisterUserAnswer extends MsgToFrontend {
     }
 
     @Override
-    public void exec(FrontendService frontendService) {
+    public void exec(FrontEndService frontendService) {
         frontendService.isRegisteredUser(login, result);
     }
 }

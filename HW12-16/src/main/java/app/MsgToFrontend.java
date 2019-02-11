@@ -11,10 +11,10 @@ public abstract class MsgToFrontend extends Message {
 
     @Override
     public void exec(Addressee addressee) {
-        if (addressee instanceof FrontendService) {
-            exec((FrontendService) addressee);
+        if (addressee instanceof FrontEndService) {
+            exec((FrontEndService) addressee);
         }
     }
 
-    public abstract void exec(FrontendService frontendService);
+    public abstract void exec(FrontEndService frontendService);
 }

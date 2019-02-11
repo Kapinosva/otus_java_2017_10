@@ -18,13 +18,14 @@ public class MsgRegisterUser extends MsgToAccService {
 
     @Override
     public void exec(AccountService acService) {
+        String result = "Registered user ";
         try {
             acService.registerUser(login, password);
         } catch (DuplicateUserException e) {
-            acService.getMS().sendMessage(new MsgRegisterUserAnswer(getTo(), getFrom(), login, "Duplicate user login "));
+            result = "Duplicate user login ";
         } catch (EmptyLoginOrPasswordException e) {
-            acService.getMS().sendMessage(new MsgRegisterUserAnswer(getTo(), getFrom(), "", "You have entered empty login or password."));
+            result = "You have entered empty login or password.";
         }
-        acService.getMS().sendMessage(new MsgRegisterUserAnswer(getTo(), getFrom(), login, "Registered user "));
+        acService.getMS().sendMessage(new MsgRegisterUserAnswer(getTo(), getFrom(), login, result));
     }
 }
