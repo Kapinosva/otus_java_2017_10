@@ -24,7 +24,6 @@ public class WebSocketUsersServlet extends WebSocketServlet {
 
     @Override
     public void configure(WebSocketServletFactory factory) {
-
         factory.getPolicy().setIdleTimeout(LOGOUT_TIME);
         SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
         factory.setCreator(new UsersWebSocketCreator(msContext));

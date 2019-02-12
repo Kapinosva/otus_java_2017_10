@@ -17,7 +17,7 @@ public class UsersWebSocketCreator implements WebSocketCreator {
 
     @Override
     public Object createWebSocket(ServletUpgradeRequest req, ServletUpgradeResponse resp) {
-        UsersWebSocket socket = new UsersWebSocket(msContext, req.getSession());
+        UsersWebSocket socket = new UsersWebSocket(msContext, req.getHttpServletRequest().getSession());        
         System.out.println("Socket created");
         return socket;
     }
