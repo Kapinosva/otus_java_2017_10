@@ -3,36 +3,49 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
+
+    <bean id="messageSystem" class="messageSystem.MessageSystem">
+    </bean>
+    <bean id="messageSystemContext" class="app.MessageSystemContext">
+        <constructor-arg name="messageSystem" ref="messageSystem"/>
+        <property name="frontEndServiceAddress" ref = "frontEndServiceAddress"/>
+        <property name="accountServiceAddress" ref = "accountServiceAddress"/>
+        <property name="loginServiceAddress" ref = "loginServiceAddress"/>
+    </bean>
+
+    <bean id="frontEndServiceAddress" class="messageSystem.Address">
+        <constructor-arg name="id" value="FrontEnd"/>
+    </bean>
+    <bean id="frontEndService" class="frontEndService.FrontEndServiceImpl">
+        <constructor-arg name="address" ref="frontEndServiceAddress"/>
+        <property name="msContext" ref="messageSystemContext"></property>
+    </bean>
+
+
     <bean id="cacheEngine" class="cache.CacheEngineImpl">
         <constructor-arg name="maxElements" value="10"/>
         <constructor-arg name="lifeTimeMs" value="0"/>
         <constructor-arg name="idleTimeMs" value="0"/>
         <constructor-arg name="isEternal" value="true"/>
     </bean>
-    <bean id="messageSystemContext" class="app.MessageSystemContext">
-        <constructor-arg name="messageSystem" ref="messageSystem"/>
-        <property name="asAddressee">
-            <ref bean="accountService"></ref>
-        </property>
-        <property name="lsAddressee">
-            <ref bean="loginService"></ref>
-        </property>
-        <property name="FrontAddressee">
-            <ref bean="frontEndService"></ref>
-        </property>
-    </bean>
-    <bean id="messageSystem" class="messageSystem.MessageSystem">
-    </bean>
-    <bean id="frontEndService" class="frontEndService.FrontEndServiceImpl">
-    </bean>
-
     <bean id="dbService" class="dbService.DBServiceHibernate">
         <constructor-arg name="cacheEngine" ref="cacheEngine"/>
     </bean>
+    <bean id="accountServiceAddress" class="messageSystem.Address">
+        <constructor-arg name="id" value="AccountService"/>
+    </bean>
     <bean id="accountService" class="accountService.DBAccountServiceImpl">
         <constructor-arg name="dbService" ref="dbService"/>
+        <constructor-arg name="address" ref="accountServiceAddress"/>
+        <property name="msContext" ref="messageSystemContext"></property>
+    </bean>
+
+    <bean id="loginServiceAddress" class="messageSystem.Address">
+        <constructor-arg name="id" value="LoginService"/>
     </bean>
     <bean id="loginService" class="accountService.LoginServiceImpl">
         <constructor-arg name="ac" ref="accountService"/>
+        <constructor-arg name="address" ref="loginServiceAddress"/>
+        <property name="msContext" ref="messageSystemContext"></property>
     </bean>
 </beans>

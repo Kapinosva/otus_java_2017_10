@@ -1,5 +1,7 @@
 package webserver.servlets.websocket;
-import app.MessageSystemContext;
+
+import app.FrontEndService;
+
 import org.eclipse.jetty.websocket.servlet.WebSocketServlet;
 import org.eclipse.jetty.websocket.servlet.WebSocketServletFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 public class WebSocketUsersServlet extends WebSocketServlet {
     private final static long LOGOUT_TIME = TimeUnit.MINUTES.toMillis(10);
     @Autowired
-    private MessageSystemContext msContext;
+    private FrontEndService frontEnd;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -26,6 +28,6 @@ public class WebSocketUsersServlet extends WebSocketServlet {
     public void configure(WebSocketServletFactory factory) {
         factory.getPolicy().setIdleTimeout(LOGOUT_TIME);
         SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
-        factory.setCreator(new UsersWebSocketCreator(msContext));
+        factory.setCreator(new UsersWebSocketCreator(frontEnd));
     }
 }

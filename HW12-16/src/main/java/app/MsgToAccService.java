@@ -1,11 +1,12 @@
 package app;
 
 import accountService.AccountService;
+import messageSystem.Address;
 import messageSystem.Addressee;
 import messageSystem.Message;
 
 public abstract class MsgToAccService extends Message {
-    public MsgToAccService(Addressee from, Addressee to) {
+    public MsgToAccService(Address from, Address to) {
         super(from, to);
     }
 

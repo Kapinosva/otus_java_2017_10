@@ -5,18 +5,21 @@ import accountService.account.UserAccount;
 import accountService.account.exception.DuplicateUserException;
 import accountService.account.exception.EmptyLoginOrPasswordException;
 import accountService.account.exception.NoSuchUserException;
-import app.MessageSystemContext;
-import messageSystem.MessageSystem;
-
 import java.util.Collection;
 import java.util.HashMap;
-
 import java.util.Map;
+
+import app.MessageSystemContext;
+import messageSystem.Address;
+import messageSystem.MessageSystem;
+
 public class AccountServiceImpl implements AccountService{
     private MessageSystemContext msContext;
     private Map<String, UserAccount> registeredUsers = new HashMap<>();
+    private Address address;
 
-    public AccountServiceImpl(){
+    public AccountServiceImpl(Address address){
+        this.address = address;
         try {
             this.registerUser("admin","a");
             this.registerUser("petya","p");
@@ -79,13 +82,14 @@ public class AccountServiceImpl implements AccountService{
     }
 
     @Override
-    public String getId() {
-        return "AccountService";
+    public void setMsContext(MessageSystemContext msContext) {
+        this.msContext = msContext;
+        msContext.getMessageSystem().addAddressee(this);
     }
 
     @Override
-    public void setMsContext(MessageSystemContext msContext) {
-        this.msContext = msContext;
+    public Address getAddress() {
+        return address;
     }
 
     @Override

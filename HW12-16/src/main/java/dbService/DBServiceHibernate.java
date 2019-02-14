@@ -117,7 +117,7 @@ public class DBServiceHibernate implements DBService {
 
     public void disconnect() {
         if (!sessionFactory.isClosed()){
-            sessionFactory.close();;
+            sessionFactory.close();
         }
         cacheEngine.dispose();
     }

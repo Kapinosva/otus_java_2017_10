@@ -1,16 +1,14 @@
 package app;
 
-import accountService.AccountService;
-import accountService.LoginService;
-import messageSystem.Addressee;
+import messageSystem.Address;
 import messageSystem.MessageSystem;
 
 public class MessageSystemContext {
     private final MessageSystem messageSystem;
 
-    private FrontEndService frontAddressee;
-    private AccountService asAddressee;//AccountService
-    private LoginService lsAddressee;//LoginService
+    private Address frontEndServiceAddress;
+    private Address accountServiceAddress;
+    private Address loginServiceAddress;
 
     public MessageSystemContext(MessageSystem messageSystem) {
         this.messageSystem = messageSystem;
@@ -20,33 +18,33 @@ public class MessageSystemContext {
         return messageSystem;
     }
 
-    public FrontEndService getFrontAddressee() {
-        return frontAddressee;
+    public Address getFrontEndServiceAddress() {
+        return frontEndServiceAddress;
     }
 
-    public void setFrontAddressee(FrontEndService frontAddressee) {
-        this.frontAddressee = frontAddressee;
-        messageSystem.addAddressee(frontAddressee);
-        frontAddressee.setMsContext(this);
+    public void setFrontEndServiceAddress(Address frontEndAddress) {
+        this.frontEndServiceAddress = frontEndAddress;
+        //messageSystem.addAddressee(frontAddressee);
+        //frontAddressee.setMsContext(this);
     }
 
-    public AccountService getAsAddressee() {
-        return asAddressee;
+    public Address getAccountServiceAddress() {
+        return accountServiceAddress;
     }
 
-    public void setAsAddressee(AccountService asAddressee) {
-        this.asAddressee = asAddressee;
-        messageSystem.addAddressee(asAddressee);
-        asAddressee.setMsContext(this);
+    public void setAccountServiceAddress(Address accountServiceAddress) {
+        this.accountServiceAddress = accountServiceAddress;
+        //messageSystem.addAddressee(asAddressee);
+        //asAddressee.setMsContext(this);
     }
 
-    public LoginService getLsAddressee() {
-        return lsAddressee;
+    public Address getLoginServiceAddress() {
+        return loginServiceAddress;
     }
 
-    public void setLsAddressee(LoginService lsAddressee) {
-        this.lsAddressee = lsAddressee;
-        messageSystem.addAddressee(lsAddressee);
-        lsAddressee.setMsContext(this);
+    public void setLoginServiceAddress(Address loginServiceAddress) {
+        this.loginServiceAddress = loginServiceAddress;
+        //messageSystem.addAddressee(lsAddressee);
+        //lsAddressee.setMsContext(this);
     }
 }

@@ -13,5 +13,5 @@ public interface CacheEngine<K, V> {
 
     void dispose();
     
-    public void printSize();
+    void printSize();
 }

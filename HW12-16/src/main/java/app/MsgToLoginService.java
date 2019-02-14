@@ -1,11 +1,12 @@
 package app;
 
 import accountService.LoginService;
+import messageSystem.Address;
 import messageSystem.Addressee;
 import messageSystem.Message;
 
 public abstract class MsgToLoginService extends Message {
-    public MsgToLoginService(Addressee from, Addressee to) {
+    public MsgToLoginService(Address from, Address to) {
         super(from, to);
     }
 

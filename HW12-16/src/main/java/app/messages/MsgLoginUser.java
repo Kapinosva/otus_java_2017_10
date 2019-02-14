@@ -3,7 +3,7 @@ package app.messages;
 import accountService.LoginService;
 import accountService.account.exception.NoSuchUserException;
 import app.MsgToLoginService;
-import messageSystem.Addressee;
+import messageSystem.Address;
 import webserver.servlets.websocket.UsersWebSocket;
 
 import javax.servlet.http.HttpSession;
@@ -13,8 +13,10 @@ public class MsgLoginUser extends MsgToLoginService {
     private final String password;
     private final HttpSession httpSession;
     private final UsersWebSocket callBackLoginWS;
+    private final String USER_NOT_FOUND = "User not found: ";
+    private final String LOGINNED_USER = "You are loggined as ";
 
-    public MsgLoginUser(Addressee from, Addressee to, String login, String password, HttpSession httpSession, UsersWebSocket callBackLoginWS) {
+    public MsgLoginUser(Address from, Address to, String login, String password, HttpSession httpSession, UsersWebSocket callBackLoginWS) {
         super(from, to);
         this.login = login;
         this.password = password;
@@ -24,11 +26,11 @@ public class MsgLoginUser extends MsgToLoginService {
 
     @Override
     public void exec(LoginService lsService) {
-        String result = "You are loggined as ";
+        String result = LOGINNED_USER;
         try {
             lsService.loginUser(login, password, httpSession);
         } catch (NoSuchUserException e) {
-            result = "User not found ";
+            result = USER_NOT_FOUND;
         }
         lsService.getMS().sendMessage(new MsgLoginUserAnswer(getTo(), getFrom(), login, result, callBackLoginWS));
     }

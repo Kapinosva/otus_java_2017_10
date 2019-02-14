@@ -1,19 +1,24 @@
 package accountService;
 
+import javax.servlet.http.HttpSession;
+
 import accountService.account.exception.NoSuchUserException;
 import app.MessageSystemContext;
+import messageSystem.Address;
 import messageSystem.MessageSystem;
 
-import javax.servlet.http.HttpSession;
 
 public class LoginServiceImpl implements LoginService {
 
     private AccountService ac;
     private MessageSystemContext msContext;
+    private Address address;
 
-    public LoginServiceImpl(AccountService ac){
+    public LoginServiceImpl(AccountService ac, Address address){
         this.ac = ac;
+        this.address = address;
     }
+
     public void loginUser(String login, String password, HttpSession session) throws NoSuchUserException {
         if ((!ac.isRegisteredUserLogin(login)) || (!ac.isRightLoginPasswordPair(login,password))){
             throw new NoSuchUserException();
@@ -23,8 +28,8 @@ public class LoginServiceImpl implements LoginService {
     }
 
     @Override
-    public String getId() {
-        return "LoginService";
+    public Address getAddress() {
+        return address;
     }
 
     @Override
@@ -35,6 +40,7 @@ public class LoginServiceImpl implements LoginService {
     @Override
     public void setMsContext(MessageSystemContext msContext) {
         this.msContext = msContext;
+        msContext.getMessageSystem().addAddressee(this);
     }
 
 

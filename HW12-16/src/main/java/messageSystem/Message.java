@@ -1,19 +1,19 @@
 package messageSystem;
 
 public abstract class Message {
-    private final Addressee from;
-    private final Addressee to;
+    private final Address from;
+    private final Address to;
 
-    public Message(Addressee from, Addressee to) {
+    public Message(Address from, Address to) {
         this.from = from;
         this.to = to;
     }
 
-    public Addressee getFrom() {
+    public Address getFrom() {
         return from;
     }
 
-    public Addressee getTo() {
+    public Address getTo() {
         return to;
     }
 

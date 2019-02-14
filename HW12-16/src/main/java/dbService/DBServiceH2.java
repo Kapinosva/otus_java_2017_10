@@ -50,7 +50,7 @@ public class DBServiceH2 implements DBService {
 
     @Override
     public <T extends DataSet> void save(T dataset) {
-        Dao dao = new Dao(connection, executor);;
+        Dao dao = new Dao(connection, executor);
         dataset.doService(new Saver(dao));
     }
 

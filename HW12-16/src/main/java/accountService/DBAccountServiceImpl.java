@@ -4,21 +4,26 @@ import accountService.account.UserAccount;
 import accountService.account.exception.DuplicateUserException;
 import accountService.account.exception.EmptyLoginOrPasswordException;
 import accountService.account.exception.NoSuchUserException;
+
 import app.MessageSystemContext;
 import dbService.DBService;
+import messageSystem.Address;
 import messageSystem.MessageSystem;
 
 import java.util.Collection;
 public class DBAccountServiceImpl implements AccountService{
     private DBService dbService;
     private MessageSystemContext msContext;
+    private Address address;
 
-    public DBAccountServiceImpl(DBService dbService) {
+    public DBAccountServiceImpl(DBService dbService, Address address) {
         this.dbService = dbService;
+        this.address = address;
     }
 
     public void setMsContext(MessageSystemContext msContext){
         this.msContext = msContext;
+        msContext.getMessageSystem().addAddressee(this);
     }
 
     @Override
@@ -71,8 +76,8 @@ public class DBAccountServiceImpl implements AccountService{
     }
 
     @Override
-    public String getId() {
-        return "AccountService";
+    public Address getAddress() {
+        return address;
     }
 
     @Override

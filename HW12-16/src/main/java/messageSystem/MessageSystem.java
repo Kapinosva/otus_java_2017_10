@@ -10,24 +10,24 @@ public final class MessageSystem {
     private final static Logger logger = Logger.getLogger(MessageSystem.class.getName());
     private boolean started = false;
     private final List<Thread> workers;
-    private final Map<Addressee, LinkedBlockingQueue<Message>> messagesMap;
-    private List<Addressee> addresseeList;
+    private final Map<Address, LinkedBlockingQueue<Message>> messagesMap;
+    private Map<Address, Addressee> addresseeMap;
 
     public MessageSystem() {
         workers = new ArrayList<>();
         messagesMap = new HashMap<>();
-        addresseeList = new LinkedList<>();
+        addresseeMap = new HashMap<>();
     }
 
-    public void setAddresseeList(List<Addressee> addresseeList) {
-        this.addresseeList = addresseeList;
+    public void setAddresseeList(Map<Address, Addressee> addresseeMap) {
+        this.addresseeMap = addresseeMap;
         messagesMap.clear();
-        addresseeList.forEach((a)->messagesMap.put(a, new LinkedBlockingQueue<>()));
+        addresseeMap.keySet().forEach((a)->messagesMap.put(a, new LinkedBlockingQueue<>()));
     }
 
     public void addAddressee(Addressee addressee) {
-        addresseeList.add(addressee);
-        messagesMap.put(addressee, new LinkedBlockingQueue<>());
+        addresseeMap.put(addressee.getAddress(), addressee);
+        messagesMap.put(addressee.getAddress(), new LinkedBlockingQueue<>());
     }
 
     public void sendMessage(Message message) {
@@ -38,13 +38,12 @@ public final class MessageSystem {
         }
     }
 
-
     public void start() {
-        for (Addressee addressee : addresseeList) {
-            String name = "MS-worker-" + addressee.getId();
+        for (Addressee addressee : addresseeMap.values()) {
+            String name = "MS-worker-" + addressee.getAddress().getId();
             Thread thread = new Thread(() -> {
                 while (true) {
-                    LinkedBlockingQueue<Message> queue = messagesMap.get(addressee);
+                    LinkedBlockingQueue<Message> queue = messagesMap.get(addressee.getAddress());
                     try {
                         Message message = queue.take(); //Blocks
                         message.exec(addressee);
