@@ -2,7 +2,6 @@ package accountService.account;
 
 import accountService.account.exception.EmptyLoginOrPasswordException;
 import dataSet.DataSet;
-import dataSet.visitor.DataSetVisitor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -34,11 +33,6 @@ public class UserAccount extends DataSet{
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    @Override
-    public void doService(DataSetVisitor visitor) {
-        visitor.accept(this);
     }
 
     public String getName() {

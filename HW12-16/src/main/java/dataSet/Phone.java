@@ -1,7 +1,5 @@
 package dataSet;
 
-import dataSet.visitor.DataSetVisitor;
-
 import javax.persistence.*;
 
 @Entity
@@ -33,11 +31,6 @@ public class Phone extends DataSet {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
-    }
-
-    @Override
-    public void doService(DataSetVisitor visitor) {
-        visitor.accept(this);
     }
 
 }

@@ -1,9 +1,6 @@
 package dataSet;
 
 
-import dataSet.visitor.DataSetVisitor;
-import org.hibernate.type.descriptor.java.UUIDTypeDescriptor;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -82,10 +79,5 @@ public class User extends DataSet {
                 "\nage : " + this.age  +
                 " \nPHONES: " + ((phones == null) ? "" : phones.stream().map(Phone::getPhoneNumber).collect(Collectors.joining(", ")))+
                 " \nAddress: " + ((address == null) ? "" : address.getStreet() + " " + address.getHouse() + " " + address.getFlat());
-    }
-
-    @Override
-    public void doService(DataSetVisitor visitor) {
-        visitor.accept(this);
     }
 }
