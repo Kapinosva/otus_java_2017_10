@@ -1,10 +1,9 @@
 package accountService;
 
-import accountService.account.exception.NoSuchUserException;
-import messageSystem.Addressee;
+import accountService.account.UserAccount;
 
 import javax.servlet.http.HttpSession;
 
-public interface LoginService  extends Addressee {
-    void loginUser(String login, String password, HttpSession session) throws NoSuchUserException;
+public interface LoginService {
+    void loginUser(UserAccount CurrentUser, HttpSession session);
 }

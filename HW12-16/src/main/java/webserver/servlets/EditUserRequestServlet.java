@@ -1,6 +1,6 @@
 package webserver.servlets;
 
-import accountService.AccountService;
+import app.AccountService;
 import accountService.account.UserAccount;
 import accountService.account.exception.NoSuchUserException;
 

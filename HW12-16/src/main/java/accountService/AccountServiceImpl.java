@@ -1,5 +1,5 @@
 package accountService;
-
+/*
 
 import accountService.account.UserAccount;
 import accountService.account.exception.DuplicateUserException;
@@ -12,6 +12,7 @@ import java.util.Map;
 import app.MessageSystemContext;
 import messageSystem.Address;
 import messageSystem.MessageSystem;
+import org.json.simple.JSONObject;
 
 public class AccountServiceImpl implements AccountService{
     private MessageSystemContext msContext;
@@ -55,9 +56,11 @@ public class AccountServiceImpl implements AccountService{
     }
 
     @Override
-    public UserAccount getRegisteredUserByLogin(String login) throws NoSuchUserException {
+    public String getRegisteredUserByLogin(String login) throws NoSuchUserException {
         if (registeredUsers.containsKey(login)){
-            return registeredUsers.get(login);
+            JSONObject JSONResult =  new JSONObject();
+            JSONResult.put("user", registeredUsers.get(login));
+            return JSONResult.toJSONString();;
         }else {
             throw new NoSuchUserException();
         }
@@ -97,3 +100,4 @@ public class AccountServiceImpl implements AccountService{
         return msContext.getMessageSystem();
     }
 }
+*/

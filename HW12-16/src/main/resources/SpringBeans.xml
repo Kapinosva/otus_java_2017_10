@@ -10,7 +10,6 @@
         <constructor-arg name="messageSystem" ref="messageSystem"/>
         <property name="frontEndServiceAddress" ref = "frontEndServiceAddress"/>
         <property name="accountServiceAddress" ref = "accountServiceAddress"/>
-        <property name="loginServiceAddress" ref = "loginServiceAddress"/>
     </bean>
 
     <bean id="frontEndServiceAddress" class="messageSystem.Address">
@@ -18,6 +17,7 @@
     </bean>
     <bean id="frontEndService" class="frontEndService.FrontEndServiceImpl">
         <constructor-arg name="address" ref="frontEndServiceAddress"/>
+        <constructor-arg name="loginService" ref="loginService"/>
         <property name="msContext" ref="messageSystemContext"></property>
     </bean>
 
@@ -40,12 +40,6 @@
         <property name="msContext" ref="messageSystemContext"></property>
     </bean>
 
-    <bean id="loginServiceAddress" class="messageSystem.Address">
-        <constructor-arg name="id" value="LoginService"/>
-    </bean>
     <bean id="loginService" class="accountService.LoginServiceImpl">
-        <constructor-arg name="ac" ref="accountService"/>
-        <constructor-arg name="address" ref="loginServiceAddress"/>
-        <property name="msContext" ref="messageSystemContext"></property>
     </bean>
 </beans>

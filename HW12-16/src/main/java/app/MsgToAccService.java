@@ -1,6 +1,5 @@
 package app;
 
-import accountService.AccountService;
 import messageSystem.Address;
 import messageSystem.Addressee;
 import messageSystem.Message;

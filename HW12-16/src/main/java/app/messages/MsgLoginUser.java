@@ -1,37 +1,36 @@
 package app.messages;
 
-import accountService.LoginService;
+import app.AccountService;
 import accountService.account.exception.NoSuchUserException;
-import app.MsgToLoginService;
+import app.MsgToAccService;
+import common.Const;
 import messageSystem.Address;
-import webserver.servlets.websocket.UsersWebSocket;
+import org.json.simple.JSONObject;
 
-import javax.servlet.http.HttpSession;
 
-public class MsgLoginUser extends MsgToLoginService {
+public class MsgLoginUser extends MsgToAccService {
     private final String login;
     private final String password;
-    private final HttpSession httpSession;
-    private final UsersWebSocket callBackLoginWS;
-    private final String USER_NOT_FOUND = "User not found: ";
-    private final String LOGINNED_USER = "You are loggined as ";
+    private final String SessionId;
 
-    public MsgLoginUser(Address from, Address to, String login, String password, HttpSession httpSession, UsersWebSocket callBackLoginWS) {
+    public MsgLoginUser(Address from, Address to, String login, String password, String SessionId) {
         super(from, to);
         this.login = login;
         this.password = password;
-        this.httpSession = httpSession;
-        this.callBackLoginWS = callBackLoginWS;
+        this.SessionId = SessionId;
     }
 
     @Override
-    public void exec(LoginService lsService) {
-        String result = LOGINNED_USER;
+    public void exec(AccountService accountService) {
+        JSONObject result = new JSONObject();
+        result.put("result",common.Const.LOGINNED_USER);
+        String user = null;
         try {
-            lsService.loginUser(login, password, httpSession);
+            user = accountService.getRegisteredUserByLogin(login);
         } catch (NoSuchUserException e) {
-            result = USER_NOT_FOUND;
+            result.put("result", Const.USER_NOT_FOUND);
         }
-        lsService.getMS().sendMessage(new MsgLoginUserAnswer(getTo(), getFrom(), login, result, callBackLoginWS));
+        result.put("user", user);
+        accountService.getMS().sendMessage(new MsgLoginUserAnswer(getTo(), getFrom(), login, result.toJSONString(), SessionId));
     }
 }

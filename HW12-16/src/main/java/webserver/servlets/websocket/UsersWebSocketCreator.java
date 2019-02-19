@@ -12,7 +12,7 @@ public class UsersWebSocketCreator implements WebSocketCreator {
 
     public UsersWebSocketCreator(FrontEndService frontEnd) {
         this.frontEnd = frontEnd;
-        System.out.println("WebSuuuuuucketCreator created");
+        System.out.println("WebScketCreator created");
     }
 
     @Override

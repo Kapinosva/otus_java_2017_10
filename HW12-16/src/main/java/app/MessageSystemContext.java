@@ -8,7 +8,6 @@ public class MessageSystemContext {
 
     private Address frontEndServiceAddress;
     private Address accountServiceAddress;
-    private Address loginServiceAddress;
 
     public MessageSystemContext(MessageSystem messageSystem) {
         this.messageSystem = messageSystem;
@@ -24,8 +23,6 @@ public class MessageSystemContext {
 
     public void setFrontEndServiceAddress(Address frontEndAddress) {
         this.frontEndServiceAddress = frontEndAddress;
-        //messageSystem.addAddressee(frontAddressee);
-        //frontAddressee.setMsContext(this);
     }
 
     public Address getAccountServiceAddress() {
@@ -34,17 +31,5 @@ public class MessageSystemContext {
 
     public void setAccountServiceAddress(Address accountServiceAddress) {
         this.accountServiceAddress = accountServiceAddress;
-        //messageSystem.addAddressee(asAddressee);
-        //asAddressee.setMsContext(this);
-    }
-
-    public Address getLoginServiceAddress() {
-        return loginServiceAddress;
-    }
-
-    public void setLoginServiceAddress(Address loginServiceAddress) {
-        this.loginServiceAddress = loginServiceAddress;
-        //messageSystem.addAddressee(lsAddressee);
-        //lsAddressee.setMsContext(this);
     }
 }

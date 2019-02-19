@@ -1,4 +1,4 @@
-package accountService;
+package app;
 
 import java.util.Collection;
 
@@ -16,7 +16,7 @@ public interface AccountService extends Addressee{
 
     UserAccount getRegisteredUserById(long id) throws NoSuchUserException;
 
-    UserAccount getRegisteredUserByLogin(String login) throws NoSuchUserException;
+    String getRegisteredUserByLogin(String login) throws NoSuchUserException;
 
     void updateUser(long id, UserAccount newUserInfo) throws NoSuchUserException;
 

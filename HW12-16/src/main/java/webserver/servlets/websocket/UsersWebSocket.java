@@ -17,11 +17,13 @@ public class UsersWebSocket {
     private Session session;
     private FrontEndService frontEnd;
     private HttpSession httpSession;
+    private String id;
 
     public UsersWebSocket(FrontEndService frontEnd, HttpSession httpSession) {
         this.frontEnd = frontEnd;
         this.httpSession = httpSession;
         System.out.println("Session onCreate\n" + httpSession);
+        id = java.util.UUID.randomUUID().toString();
     }
 
     public void onLoginUser(String result){
@@ -33,22 +35,17 @@ public class UsersWebSocket {
     }
 
     public void onRegisteredUser(String result){
-        try{
-            session.getRemote().sendString(result);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     @OnWebSocketMessage
     public void onMessage(String data) {
-        frontEnd.handleWebsocketRequest(data, httpSession, this);
+        frontEnd.handleWebsocketRequest(data, getId());
     }
 
     @OnWebSocketConnect
     public void onOpen(Session session) {
         setSession(session);
-        frontEnd.subscribeOnRegisterUsers(this);
+        frontEnd.subscribeOnRegisterUsers(getId(), getSession(), httpSession);
         System.out.println("onOpen");
     }
 
@@ -62,9 +59,11 @@ public class UsersWebSocket {
 
     @OnWebSocketClose
     public void onClose(int statusCode, String reason) {
-        frontEnd.unSubscribeOnRegisterUsers(this);
+        frontEnd.unSubscribeOnRegisterUsers(getId());
         System.out.println("onClose");
     }
 
-
+    public String getId() {
+        return id;
+    }
 }

@@ -16,14 +16,6 @@
         <servlet-name>signInRequestsServlet</servlet-name>
         <servlet-class>webserver.servlets.SignInRequestsServlet</servlet-class>
     </servlet>
-    <servlet>
-        <servlet-name>chatServlet</servlet-name>
-        <servlet-class>webserver.servlets.ChatServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>chatServlet</servlet-name>
-        <url-pattern>/chat</url-pattern>
-    </servlet-mapping>
 
     <servlet>
         <servlet-name>signUpRequestsServlet</servlet-name>
@@ -42,14 +34,7 @@
         <servlet-name>allRequestsServlet</servlet-name>
         <servlet-class>webserver.servlets.AllRequestsServlet</servlet-class>
     </servlet>
-    <servlet>
-        <servlet-name>wschat</servlet-name>
-        <servlet-class>webserver.servlets.websocket.chat.WebSocketChatServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>wschat</servlet-name>
-        <url-pattern>/wschat</url-pattern>
-    </servlet-mapping>
+
     <servlet>
         <servlet-name>wsusers</servlet-name>
         <servlet-class>webserver.servlets.websocket.WebSocketUsersServlet</servlet-class>

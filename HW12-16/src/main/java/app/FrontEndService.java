@@ -1,20 +1,21 @@
 package app;
 
 import messageSystem.Addressee;
-import webserver.servlets.websocket.UsersWebSocket;
+import org.eclipse.jetty.websocket.api.Session;
 
 import javax.servlet.http.HttpSession;
 
+
 public interface FrontEndService extends Addressee {
-    void isRegisteredUser(String login, String result);
+    void onRegisterUserAnswer(String login, String result);
 
-    void isLogindUser(String login, String result, UsersWebSocket callBackLoginWS);
+    void onLoginUserAnswer(String login, String answerResultresult, String sessionId);
 
-    void subscribeOnRegisterUsers(UsersWebSocket usersWebSocket);
+    void subscribeOnRegisterUsers(String SessionId, Session usersWebSocketSession, HttpSession httpSession);
 
-    void unSubscribeOnRegisterUsers(UsersWebSocket usersWebSocket);
+    void unSubscribeOnRegisterUsers(String SessionId);
 
-    void handleWebsocketRequest(String data, HttpSession httpSession, UsersWebSocket usersWebSocket);
+    void handleWebsocketRequest(String data, String SessionId);
 
 }
 

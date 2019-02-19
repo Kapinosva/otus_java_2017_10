@@ -16,6 +16,6 @@ public class MsgRegisterUserAnswer extends MsgToFrontend {
 
     @Override
     public void exec(FrontEndService frontendService) {
-        frontendService.isRegisteredUser(login, result);
+        frontendService.onRegisterUserAnswer(login, result);
     }
 }

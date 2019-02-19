@@ -5,13 +5,15 @@ import accountService.account.exception.DuplicateUserException;
 import accountService.account.exception.EmptyLoginOrPasswordException;
 import accountService.account.exception.NoSuchUserException;
 
+import app.AccountService;
 import app.MessageSystemContext;
+import com.google.gson.Gson;
 import dbService.DBService;
 import messageSystem.Address;
 import messageSystem.MessageSystem;
 
 import java.util.Collection;
-public class DBAccountServiceImpl implements AccountService{
+public class DBAccountServiceImpl implements AccountService {
     private DBService dbService;
     private MessageSystemContext msContext;
     private Address address;
@@ -50,12 +52,13 @@ public class DBAccountServiceImpl implements AccountService{
     }
 
     @Override
-    public UserAccount getRegisteredUserByLogin(String login) throws NoSuchUserException {
+    public String getRegisteredUserByLogin(String login) throws NoSuchUserException {
         UserAccount result = dbService.getUserByLogin(login);
         if (result == null){
             throw new NoSuchUserException();
         }else {
-            return result;
+            Gson gson = new Gson();
+            return gson.toJson(result);
         }
     }
 
@@ -72,7 +75,10 @@ public class DBAccountServiceImpl implements AccountService{
 
     @Override
     public boolean isRightLoginPasswordPair(String login, String password) throws NoSuchUserException {
-        return getRegisteredUserByLogin(login).getPassword().equals(password);
+        Gson g = new Gson();
+
+        UserAccount user = g.fromJson(getRegisteredUserByLogin(login), UserAccount.class);
+        return user.getPassword().equals(password);
     }
 
     @Override
