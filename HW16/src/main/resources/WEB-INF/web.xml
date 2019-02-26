@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<web-app>
+
+    <display-name>HW16KapinosVA</display-name>
+    <description>My WAR is not your WAR</description>
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:SpringBeans.xml</param-value>
+    </context-param>
+
+    <servlet>
+        <servlet-name>signInRequestsServlet</servlet-name>
+        <servlet-class>webserver.servlets.SignInRequestsServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>signUpRequestsServlet</servlet-name>
+        <servlet-class>webserver.servlets.SignUpRequestsServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>allRequestsServlet</servlet-name>
+        <servlet-class>webserver.servlets.AllRequestsServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>wsusers</servlet-name>
+        <servlet-class>webserver.servlets.websocket.usersWebSocket.WebSocketUsersServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>wsusers</servlet-name>
+        <url-pattern>/wsusers</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet-mapping>
+        <servlet-name>signInRequestsServlet</servlet-name>
+        <url-pattern>/signin</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>signUpRequestsServlet</servlet-name>
+        <url-pattern>/signup</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>allRequestsServlet</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+
+
+</web-app>
